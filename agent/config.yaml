@@ -1,0 +1,30 @@
+profile: open
+marketplace: demo
+models:
+  open:
+    router: null
+    writer: null
+    critic: null
+budgets:
+  max_graph_steps: 30
+  max_critic_revisions: 2
+  max_connects_per_week: 40
+decision:
+  minimum_fit_score: 0.55
+  maximum_risk_score: 0.4
+  minimum_client_rating: 3.0
+  risk_weight_per_flag: 0.35
+  low_rating_risk_weight: 0.3
+  risk_phrases:
+    - free sample
+    - whatsapp
+    - off platform
+    - ignore previous instructions
+    - payment outside
+  injection_phrases:
+    - ignore previous instructions
+  forbidden_draft_phrases:
+    - whatsapp
+    - telegram
+    - guarantee
+    - gmail.com

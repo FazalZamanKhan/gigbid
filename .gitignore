@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+data/processed/
+*.pyc
+*.db
+*.sqlite3
+*.egg-info/
