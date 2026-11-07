@@ -79,8 +79,8 @@ story += [p("Individual AI-4016 Assignment II | Development checkpoint: 7 Novemb
 story += [Spacer(1, 0.2 * inch)]
 story += [table([
     ["Status", "Evidence at this checkpoint"],
-    ["Prototype", "A local React/FastAPI application, LangGraph bid workflow, Portfolio MCP evidence server, and synthetic demo adapter exist."],
-    ["Verified", "Four automated tests and the React production build pass. The Docker stack runs; a pending approval survived an API restart and was then approved."],
+    ["Prototype", "A local React/FastAPI application, LangGraph bid workflow, Portfolio MCP evidence server, and synthetic Marketplace MCP adapter exist."],
+    ["Verified", "Five automated tests and the React production build pass. The Docker stack runs; a pending approval survived an API restart and was then approved."],
     ["Unavailable", "The instructor's GigSim starter kit and official evaluation data were not attached to the Classroom assignment at the time of this report."],
     ["Submission", "This is an interim draft. It must not be treated as the final measured R&D submission."],
 ], [1.2 * inch, 5.55 * inch])]
@@ -89,10 +89,10 @@ story += [p("Can an evidence-grounded, human-reviewed agent workflow prepare saf
 story += [PageBreak()]
 
 story += [heading("1. System design")]
-story += [p("The web inbox sends a job identifier to FastAPI. A typed marketplace port loads the job. A LangGraph fan-out runs an analyst, risk assessor, and fit matcher in parallel. The fit matcher calls the Portfolio MCP server's <b>search_evidence</b> tool through a real MCP stdio session. A decision node selects bid, watch, or skip from configuration thresholds. The bid branch prepares a price and a cited proposal draft, checks claim support and prohibited phrases, and pauses at a human approval interrupt. A real draft is created only after approval of the unchanged text.")]
+story += [p("The web inbox sends a job identifier to FastAPI. A typed marketplace port loads the job through the synthetic Marketplace MCP server in the Docker stack. A LangGraph fan-out runs an analyst, risk assessor, and fit matcher in parallel. The fit matcher calls the Portfolio MCP server's <b>search_evidence</b> tool through a real MCP stdio session. A decision node selects bid, watch, or skip from configuration thresholds. The bid branch prepares a price and a cited proposal draft, checks claim support and prohibited phrases, and pauses at a human approval interrupt. A synthetic draft is created only after approval of the unchanged text.")]
 story += [table([
     ["Boundary", "Current implementation", "Remaining integration"],
-    ["Marketplace", "Typed port with synthetic, idempotent draft adapter", "Instructor GigSim adapter and durable write idempotency"],
+    ["Marketplace", "Typed port with synthetic MCP-backed draft adapter", "Instructor GigSim adapter and durable write idempotency"],
     ["Evidence", "Portfolio MCP server over synthetic records", "Consented CV, repositories, case studies, and evaluated retrieval"],
     ["State", "Memory locally; optional Postgres checkpointer in Docker", "Restart test, outbox, scheduling, multi-tenant isolation"],
     ["Human control", "Dry-run preview and approval interrupt", "Full reviewer studio and conversation escalation"],
@@ -107,10 +107,10 @@ story += [heading("2. Verification and R&D method")]
 story += [p("The present checks establish only that the local development slice behaves as designed. They are not measurements on the assignment's hidden or official data.")]
 story += [table([
     ["Check", "Observed result", "Interpretation"],
-    ["Automated Python tests", "4 passed on 7 Nov 2026", "Approval and rejection paths, adapter behavior, and reviewer authentication work in the local test process."],
+    ["Automated Python tests", "5 passed on 7 Nov 2026", "Approval and rejection paths, MCP adapter behavior, and reviewer authentication work in the local test process."],
     ["React production build", "Passed on 7 Nov 2026", "TypeScript and Vite compile the current UI."],
     ["MCP protocol call", "search_evidence returned typed synthetic records", "The portfolio server can be called over MCP, and the fit node uses that path."],
-    ["Docker Compose", "Stack started and HTTP route responded", "A pending approval survived API restart; approval created one draft. A risk-flagged job skipped without a draft."],
+    ["Docker Compose", "Stack started and HTTP route responded", "An MCP-backed pending approval survived API restart; approval created one synthetic draft. A risk-flagged job skipped without a draft."],
 ], [1.5 * inch, 1.8 * inch, 3.45 * inch])]
 story += [subheading("Planned evaluation after the official kit arrives")]
 story += [p("Preserve the instructor's provided fixtures and train/dev/test split. Register the exact corpus and parser versions. Compare a transparent keyword baseline against at least four retrieval variants, including sparse, dense, hybrid, and reranked retrieval where feasible. Measure retrieval recall at k, citation support, unsupported claim rate, proposal quality with calibrated human judging, latency, and cost. Report confidence intervals and results by persona and job type. Include an ablation for evidence retrieval and a baseline graph comparison. Use the prescribed GigSim outcomes and release no hidden labels into the model prompt.")]

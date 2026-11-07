@@ -22,7 +22,7 @@ services:
       context: ..
       dockerfile: infra/docker/api.Dockerfile
     environment:
-      GIGBID_MARKETPLACE: demo
+      GIGBID_MARKETPLACE: demo_mcp
       GIGBID_CHECKPOINT_BACKEND: postgres
       LANGGRAPH_STRICT_MSGPACK: "true"
       DATABASE_URL: postgresql://gigbid:gigbid_dev_only@postgres:5432/gigbid

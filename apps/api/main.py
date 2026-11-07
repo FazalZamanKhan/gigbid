@@ -15,8 +15,9 @@ from langgraph.types import Command
 
 from agent.graphs.bid_graph import build_bid_graph
 from mcp_servers.marketplace.adapters.demo import DemoMarketplace
+from mcp_servers.marketplace.client import DemoMCPMarketplace
 
-marketplace = DemoMarketplace()
+marketplace = DemoMCPMarketplace() if os.getenv("GIGBID_MARKETPLACE") == "demo_mcp" else DemoMarketplace()
 graph = build_bid_graph(marketplace)
 
 
@@ -77,7 +78,7 @@ def _view(run_id: str, snapshot):
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "mode": "development-demo"}
+    return {"status": "ok", "mode": "development-demo", "marketplace": os.getenv("GIGBID_MARKETPLACE", "demo")}
 
 
 @app.get("/jobs")
