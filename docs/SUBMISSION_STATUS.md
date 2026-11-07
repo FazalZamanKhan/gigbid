@@ -12,7 +12,7 @@
 | Three-minute demo video | Pending working end-to-end app |
 | Published Portfolio MCP server | Pending packaging and release |
 | Published technical write-up | Pending real findings |
-| Optional source ZIP | Prepare only if requested by Classroom |
+| Optional source ZIP | Interim source archive prepared locally; regenerate from the final commit only if requested |
 | Google Classroom submission and private reviewer comment | Correct AI4015 course and Assignment 2 page found; submission pending completed artifacts |
 
 ## Rubric audit

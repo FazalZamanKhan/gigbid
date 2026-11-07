@@ -11,3 +11,4 @@ data/processed/
 *.egg-info/
 *.tsbuildinfo
 tmp/
+output/zip/
