@@ -22,13 +22,24 @@ export default function App() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
-  useEffect(() => { api<Job[]>('/jobs').then(setJobs).catch(e => setError(e.message)) }, [])
+  useEffect(() => {
+    api<Job[]>('/jobs').then(setJobs).catch(e => setError(e.message))
+    const previousRun = localStorage.getItem('gigbid:last-run')
+    if (previousRun) {
+      api<Run>(`/runs/${previousRun}`).then(result => {
+        setRun(result)
+        setSelected(result.state.job || null)
+        setEdit(result.state.draft?.text || '')
+      }).catch(() => localStorage.removeItem('gigbid:last-run'))
+    }
+  }, [])
 
   async function analyse(job: Job) {
     setSelected(job); setRun(null); setError(''); setBusy(true)
     try {
       const result = await api<Run>(`/jobs/${job.id}/runs`, { method: 'POST' })
       setRun(result); setEdit(result.state.draft?.text || '')
+      localStorage.setItem('gigbid:last-run', result.run_id)
     } catch (e) { setError((e as Error).message) } finally { setBusy(false) }
   }
 

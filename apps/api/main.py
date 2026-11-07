@@ -1,9 +1,15 @@
 """Development API. Demo state is process-local and not production durable."""
 
+from contextlib import asynccontextmanager
+import base64
+import binascii
+import os
+import secrets
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from pydantic import BaseModel
 from langgraph.types import Command
 
@@ -12,8 +18,50 @@ from mcp_servers.marketplace.adapters.demo import DemoMarketplace
 
 marketplace = DemoMarketplace()
 graph = build_bid_graph(marketplace)
-app = FastAPI(title="GigBid development API", version="0.1.0")
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    global graph
+    if os.getenv("GIGBID_CHECKPOINT_BACKEND", "memory") == "postgres":
+        from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+
+        database_url = os.environ["DATABASE_URL"]
+        async with AsyncPostgresSaver.from_conn_string(database_url) as checkpointer:
+            await checkpointer.setup()
+            graph = build_bid_graph(marketplace, checkpointer=checkpointer)
+            yield
+    else:
+        yield
+
+
+app = FastAPI(title="GigBid development API", version="0.1.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])
+
+
+@app.middleware("http")
+async def reviewer_auth(request: Request, call_next):
+    username = os.getenv("GIGBID_REVIEWER_USERNAME")
+    password = os.getenv("GIGBID_REVIEWER_PASSWORD")
+    if request.url.path == "/health" or request.method == "OPTIONS":
+        return await call_next(request)
+    if not username and not password:
+        return await call_next(request)
+    if not username or not password:
+        return Response("Reviewer authentication is misconfigured", status_code=503)
+    authorization = request.headers.get("authorization", "")
+    try:
+        scheme, encoded = authorization.split(" ", 1)
+        supplied = base64.b64decode(encoded, validate=True).decode("utf-8")
+        supplied_user, supplied_password = supplied.split(":", 1)
+    except (ValueError, UnicodeDecodeError, binascii.Error):
+        scheme = supplied_user = supplied_password = ""
+    if scheme.casefold() != "basic" or not (
+        secrets.compare_digest(supplied_user, username)
+        and secrets.compare_digest(supplied_password, password)
+    ):
+        return Response(status_code=401, headers={"WWW-Authenticate": 'Basic realm="GigBid Reviewer"'})
+    return await call_next(request)
 
 
 class ApprovalInput(BaseModel):

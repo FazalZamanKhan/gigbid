@@ -1,4 +1,4 @@
-.PHONY: dev test eval seed demo lint
+.PHONY: dev test eval seed demo lint report-draft
 
 dev:
 	uvicorn apps.api.main:app --reload --port 8000
@@ -17,3 +17,6 @@ demo:
 
 lint:
 	python -m compileall -q agent apps rag mcp_servers
+
+report-draft:
+	python tools/build_interim_report.py

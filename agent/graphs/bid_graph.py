@@ -19,7 +19,7 @@ from agent.handoffs import (
 )
 from agent.marketplace_port import MarketplacePort
 from agent.settings import load_config
-from rag.retriever import search_evidence
+from rag.mcp_client import search_evidence_mcp
 from rag.verify import verify_claims
 
 
@@ -38,7 +38,7 @@ class BidState(TypedDict, total=False):
     events: Annotated[list[str], operator.add]
 
 
-def build_bid_graph(marketplace: MarketplacePort):
+def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
     policy = load_config()["decision"]
 
     async def scout(state: BidState) -> BidState:
@@ -60,9 +60,9 @@ def build_bid_graph(marketplace: MarketplacePort):
         risk = RiskReport(score=score, flags=flags, injected_instruction=any(phrase in text for phrase in policy["injection_phrases"]))
         return {"risk": risk.model_dump(), "events": ["Risk assessor checked post"]}
 
-    def fit_matcher(state: BidState) -> BidState:
+    async def fit_matcher(state: BidState) -> BidState:
         job = JobSpec.model_validate(state["job"])
-        evidence = search_evidence(job)
+        evidence = await search_evidence_mcp(job)
         covered = {s.casefold() for item in evidence for s in item.skills}
         missing = [skill for skill in job.skills if skill.casefold() not in covered]
         score = len(job.skills) and (len(job.skills) - len(missing)) / len(job.skills) or 0.0
@@ -155,4 +155,4 @@ def build_bid_graph(marketplace: MarketplacePort):
     graph.add_conditional_edges("compliance", after_compliance)
     graph.add_conditional_edges("approval", after_approval)
     graph.add_edge("create_draft", END)
-    return graph.compile(checkpointer=MemorySaver())
+    return graph.compile(checkpointer=checkpointer or MemorySaver())

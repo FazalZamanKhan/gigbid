@@ -10,3 +10,4 @@ data/processed/
 *.sqlite3
 *.egg-info/
 *.tsbuildinfo
+tmp/

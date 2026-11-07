@@ -1,0 +1,46 @@
+# Development stack only. GigSim, worker, and model services are pending.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: gigbid
+      POSTGRES_USER: gigbid
+      POSTGRES_PASSWORD: gigbid_dev_only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gigbid -d gigbid"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+
+  api:
+    build:
+      context: ..
+      dockerfile: infra/docker/api.Dockerfile
+    environment:
+      GIGBID_MARKETPLACE: demo
+      GIGBID_CHECKPOINT_BACKEND: postgres
+      LANGGRAPH_STRICT_MSGPACK: "true"
+      DATABASE_URL: postgresql://gigbid:gigbid_dev_only@postgres:5432/gigbid
+      REDIS_URL: redis://redis:6379/0
+      GIGBID_REVIEWER_USERNAME: ${GIGBID_REVIEWER_USERNAME:-}
+      GIGBID_REVIEWER_PASSWORD: ${GIGBID_REVIEWER_PASSWORD:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ..
+      dockerfile: infra/docker/web.Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
