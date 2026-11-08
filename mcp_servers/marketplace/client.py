@@ -48,3 +48,16 @@ class DemoMCPMarketplace:
         if result.get("error") == "not_found":
             raise KeyError(job_id)
         return result
+
+    async def send_message(
+        self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
+    ) -> dict:
+        result = await self._call("send_message", {
+            "job_id": job_id,
+            "text": text,
+            "idempotency_key": idempotency_key,
+            "dry_run": dry_run,
+        })
+        if result.get("error") == "not_found":
+            raise KeyError(job_id)
+        return result

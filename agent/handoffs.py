@@ -67,3 +67,16 @@ class ProposalDraft(BaseModel):
 class ComplianceVerdict(BaseModel):
     allowed: bool
     reasons: list[str] = Field(default_factory=list)
+
+
+class ConversationIntent(StrEnum):
+    QUESTION = "question"
+    NEGOTIATION = "negotiation"
+    INTERVIEW = "interview"
+    SCAM = "scam"
+
+
+class MessageDraft(BaseModel):
+    text: str = Field(min_length=1, max_length=2000)
+    intent: ConversationIntent
+    slot_ids: list[str] = Field(default_factory=list)

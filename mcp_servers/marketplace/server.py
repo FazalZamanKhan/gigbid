@@ -34,6 +34,15 @@ async def create_proposal_draft(job_id: str, text: str, idempotency_key: str, dr
         return {"error": "not_found", "job_id": job_id}
 
 
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=True))
+async def send_message(job_id: str, text: str, idempotency_key: str, dry_run: bool = False) -> dict:
+    """Preview or record one synthetic client message. No external message is sent."""
+    try:
+        return await marketplace.send_message(job_id, text, idempotency_key, dry_run)
+    except KeyError:
+        return {"error": "not_found", "job_id": job_id}
+
+
 @mcp.resource("marketplace://jobs/{job_id}")
 async def job_resource(job_id: str) -> str:
     """Return a synthetic job as JSON."""

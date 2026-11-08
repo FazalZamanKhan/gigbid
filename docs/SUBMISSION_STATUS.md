@@ -19,13 +19,13 @@
 
 | Area | Verified now | Major work still required |
 | --- | --- | --- |
-| MCP tool layer (20) | Portfolio and synthetic Marketplace MCP servers; Docker bid graph invokes both through MCP | GigSim and Workspace servers, third-party integrations, production auth, schema snapshots, Inspector evidence, MCP-only access for remaining capabilities |
+| MCP tool layer (20) | Portfolio, synthetic Marketplace, and local mock Workspace MCP servers; Docker graphs invoke them through MCP | GigSim, third-party integrations, production auth, schema snapshots, Inspector evidence, MCP-only access for remaining capabilities |
 | Advanced RAG (20) | A keyword-based demo retriever and conservative citation check | CV/repo ingestion, V0 plus four measured variants, judge calibration, human panel, ablation, per-persona and job-type results |
-| Multi-agent graphs (25) | Parallel bid analysis and approval interrupt; Postgres checkpoint recovered a pending approval after API restart | Conversation graph, LLM roles, critic loop, memory, baselines, external-write crash proof, tracing |
-| Web interface (15) | React inbox and bid review screen; production build passes | Auth/onboarding, full proposal studio, pipeline, messages, analytics, settings, live streaming, five Playwright tests |
+| Multi-agent graphs (25) | Parallel bid analysis; bid and conversation approval interrupts; Postgres checkpoint recovered a pending bid approval after API restart | LLM roles, critic loop, memory, baselines, external-write crash proof, tracing |
+| Web interface (15) | React inbox, bid review, and synthetic message review screens; production build passes | Auth/onboarding, full proposal studio, pipeline, analytics, settings, live streaming, five Playwright tests |
 | Production engineering (10) | Partial Docker Compose starts; web/API/Postgres/Redis respond; reviewer API authentication tests pass | Complete Docker Compose, worker, CI/eval gates, budgets, OAuth encryption, tenant isolation, deployment and live monitoring |
 | Portfolio and report (10) | README, architecture notes, a four-page interim PDF, and unpublished write-up/demo outlines | Final measured report PDF, demo video, three public traces, published MCP package and write-up, résumé bullet |
 
-**Current verification:** `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python3 -m pytest -q` passed 5 tests on 7 November 2026; `npm run build` passed; `docker compose -f infra/docker-compose.yml up -d --build` started successfully. With `GIGBID_MARKETPLACE=demo_mcp`, a `demo-1` run paused for approval, survived `docker compose restart api`, and created a synthetic draft after approval. A `demo-2` run skipped with no draft. These checks cover only the synthetic development slice. They do not predict a grade.
+**Current verification:** `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python3 -m pytest -q` passed 8 tests on 7 November 2026; `npm run build` passed. In the previous Docker build, a `demo-1` bid run paused for approval, survived `docker compose restart api`, and created a synthetic draft after approval; `demo-2` skipped with no draft. The new conversation path has passed local automated tests; its container and restart checks are in progress. These checks cover only the synthetic development slice. They do not predict a grade.
 
 Do not fill missing results or URLs with invented values. The Assignment 1 Meeting Sentinel project is unrelated and remains untouched.

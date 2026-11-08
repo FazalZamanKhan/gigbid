@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 type Job = { id: string; title: string; description: string; skills: string[]; budget_min: number; budget_max: number; connects_cost: number; client_rating: number }
 type Evidence = { id: string; title: string; source: string; text: string }
 type Run = { run_id: string; status: string; state: { job?: Job; risk?: { score: number; flags: string[] }; fit?: { score: number; evidence: Evidence[]; missing_skills: string[] }; decision?: { action: string; reason: string }; price?: { amount: number; rationale: string }; draft?: { text: string; claims: { text: string; evidence_ids: string[]; supported: boolean }[] }; events?: string[]; approval?: { approved: boolean; reason?: string }; marketplace_result?: { draft_id: string } } }
+type ConversationRun = { run_id: string; status: string; state: { job?: Job; incoming?: string; intent?: string; risk_flags?: string[]; slots?: string[]; draft?: { text: string }; events?: string[]; approval?: { approved: boolean; reason?: string }; marketplace_result?: { message_id?: string } } }
 
 async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`/api${path}`, { headers: { 'Content-Type': 'application/json' }, ...options })
@@ -19,6 +20,9 @@ export default function App() {
   const [selected, setSelected] = useState<Job | null>(null)
   const [run, setRun] = useState<Run | null>(null)
   const [edit, setEdit] = useState('')
+  const [incoming, setIncoming] = useState('Could we schedule an interview for this project?')
+  const [conversation, setConversation] = useState<ConversationRun | null>(null)
+  const [replyEdit, setReplyEdit] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -31,6 +35,13 @@ export default function App() {
         setSelected(result.state.job || null)
         setEdit(result.state.draft?.text || '')
       }).catch(() => localStorage.removeItem('gigbid:last-run'))
+    }
+    const previousConversation = localStorage.getItem('gigbid:last-conversation')
+    if (previousConversation) {
+      api<ConversationRun>(`/conversations/${previousConversation}`).then(result => {
+        setConversation(result)
+        setReplyEdit(result.state.draft?.text || '')
+      }).catch(() => localStorage.removeItem('gigbid:last-conversation'))
     }
   }, [])
 
@@ -52,6 +63,25 @@ export default function App() {
     } catch (e) { setError((e as Error).message) } finally { setBusy(false) }
   }
 
+  async function startConversation() {
+    if (!selected || !incoming.trim()) return
+    setBusy(true); setError(''); setConversation(null)
+    try {
+      const result = await api<ConversationRun>(`/jobs/${selected.id}/conversations`, { method: 'POST', body: JSON.stringify({ incoming }) })
+      setConversation(result); setReplyEdit(result.state.draft?.text || '')
+      localStorage.setItem('gigbid:last-conversation', result.run_id)
+    } catch (e) { setError((e as Error).message) } finally { setBusy(false) }
+  }
+
+  async function respondConversation(approved: boolean) {
+    if (!conversation) return
+    setBusy(true); setError('')
+    try {
+      const result = await api<ConversationRun>(`/conversations/${conversation.run_id}/approval`, { method: 'POST', body: JSON.stringify({ approved, text: replyEdit, reason: approved ? undefined : 'Rejected in messages' }) })
+      setConversation(result)
+    } catch (e) { setError((e as Error).message) } finally { setBusy(false) }
+  }
+
   return <div className="shell">
     <aside className="sidebar">
       <div className="brand"><span className="brand-mark">G</span><span>GigBid<small>FREELANCER COPILOT</small></span></div>
@@ -60,6 +90,7 @@ export default function App() {
         <a className="nav-active" href="#inbox">▦ <span>Job inbox</span><b>{jobs.length}</b></a>
         <a href="#run">◉ <span>Agent run</span></a>
         <a href="#studio">✎ <span>Proposal studio</span></a>
+        <a href="#messages">✉ <span>Messages</span></a>
       </nav>
       <div className="side-bottom"><div className="avatar">FZ</div><div><strong>Development demo</strong><small>Synthetic local data</small></div></div>
     </aside>
@@ -91,6 +122,10 @@ export default function App() {
             </div>}
           </section>
         </div>
+        <section id="messages" className="messages"><div className="section-head"><div><h2>Client messages</h2><p>Run a synthetic client reply through the Workspace MCP calendar and approval gate</p></div></div>
+          <div className="message-grid"><div><label htmlFor="incoming">Incoming client message</label><textarea id="incoming" rows={4} value={incoming} onChange={e => setIncoming(e.target.value)} /><button className="primary" onClick={startConversation} disabled={busy || !selected || !incoming.trim()}>Prepare reply for selected job</button><small>{selected ? `Selected: ${selected.title}` : 'Select a job above first.'}</small></div>
+            <div aria-live="polite">{!conversation ? <p className="empty">The reply and its approval status will appear here.</p> : <><div className="message-summary"><Pill tone="amber">{conversation.state.intent || 'pending'}</Pill>{conversation.state.slots?.length ? <span>Calendar slots: {conversation.state.slots.join(' · ')}</span> : null}</div>{conversation.state.risk_flags?.length ? <div className="warning">Reply blocked: {conversation.state.risk_flags.join(', ')}</div> : null}{conversation.state.draft && <><label htmlFor="reply">Reply draft</label><textarea id="reply" rows={5} value={replyEdit} onChange={e => setReplyEdit(e.target.value)} disabled={conversation.status !== 'awaiting_approval'} />{conversation.status === 'awaiting_approval' && <div className="actions"><button className="secondary" onClick={() => respondConversation(false)} disabled={busy}>Reject</button><button className="primary" onClick={() => respondConversation(true)} disabled={busy}>Approve message</button></div>}{conversation.state.approval && <div className={conversation.state.approval.approved ? 'success' : 'warning'}>{conversation.state.approval.approved ? `Approved synthetic message recorded: ${conversation.state.marketplace_result?.message_id || 'pending'}` : conversation.state.approval.reason}</div>}</>}<div className="subsection"><h3>Conversation timeline</h3><ol className="timeline">{conversation.state.events?.map((event, index) => <li key={`${event}-${index}`}>{event}</li>)}</ol></div></>}</div></div>
+        </section>
         <footer>GigBid development build · Synthetic data · No live marketplace actions</footer>
       </div>
     </main>

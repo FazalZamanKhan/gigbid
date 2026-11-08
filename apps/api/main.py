@@ -1,4 +1,4 @@
-"""Development API. Demo state is process-local and not production durable."""
+"""Development API backed by synthetic MCP services and optional durable checkpoints."""
 
 from contextlib import asynccontextmanager
 import base64
@@ -6,6 +6,7 @@ import binascii
 import os
 import secrets
 from uuid import uuid4
+from datetime import date, timedelta
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,16 +15,20 @@ from pydantic import BaseModel
 from langgraph.types import Command
 
 from agent.graphs.bid_graph import build_bid_graph
+from agent.graphs.conversation_graph import build_conversation_graph
 from mcp_servers.marketplace.adapters.demo import DemoMarketplace
 from mcp_servers.marketplace.client import DemoMCPMarketplace
+from mcp_servers.workspace.client import DemoWorkspace
 
 marketplace = DemoMCPMarketplace() if os.getenv("GIGBID_MARKETPLACE") == "demo_mcp" else DemoMarketplace()
+workspace = DemoWorkspace()
 graph = build_bid_graph(marketplace)
+conversation_graph = build_conversation_graph(marketplace, workspace)
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    global graph
+    global graph, conversation_graph
     if os.getenv("GIGBID_CHECKPOINT_BACKEND", "memory") == "postgres":
         from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 
@@ -31,6 +36,7 @@ async def lifespan(_: FastAPI):
         async with AsyncPostgresSaver.from_conn_string(database_url) as checkpointer:
             await checkpointer.setup()
             graph = build_bid_graph(marketplace, checkpointer=checkpointer)
+            conversation_graph = build_conversation_graph(marketplace, workspace, checkpointer=checkpointer)
             yield
     else:
         yield
@@ -69,6 +75,11 @@ class ApprovalInput(BaseModel):
     approved: bool
     text: str | None = None
     reason: str | None = None
+
+
+class ConversationInput(BaseModel):
+    incoming: str
+    day: date | None = None
 
 
 def _view(run_id: str, snapshot):
@@ -125,3 +136,39 @@ async def approve_run(run_id: str, body: ApprovalInput):
         raise HTTPException(409, "Run is not awaiting approval")
     await graph.ainvoke(Command(resume=body.model_dump(exclude_none=True)), config)
     return _view(run_id, await graph.aget_state(config))
+
+
+@app.post("/jobs/{job_id}/conversations")
+async def start_conversation(job_id: str, body: ConversationInput):
+    if not body.incoming.strip():
+        raise HTTPException(422, "Incoming message is empty")
+    try:
+        await marketplace.get_job(job_id)
+    except KeyError:
+        raise HTTPException(404, "Job not found")
+    run_id = str(uuid4())
+    config = {"configurable": {"thread_id": run_id}}
+    day = body.day or date.today() + timedelta(days=1)
+    await conversation_graph.ainvoke({"run_id": run_id, "job_id": job_id, "incoming": body.incoming, "day": day.isoformat(), "events": []}, config)
+    return _view(run_id, await conversation_graph.aget_state(config))
+
+
+@app.get("/conversations/{run_id}")
+async def get_conversation(run_id: str):
+    config = {"configurable": {"thread_id": run_id}}
+    snapshot = await conversation_graph.aget_state(config)
+    if not snapshot.values:
+        raise HTTPException(404, "Conversation not found")
+    return _view(run_id, snapshot)
+
+
+@app.post("/conversations/{run_id}/approval")
+async def approve_conversation(run_id: str, body: ApprovalInput):
+    config = {"configurable": {"thread_id": run_id}}
+    snapshot = await conversation_graph.aget_state(config)
+    if not snapshot.values:
+        raise HTTPException(404, "Conversation not found")
+    if "approval" not in snapshot.next:
+        raise HTTPException(409, "Conversation is not awaiting approval")
+    await conversation_graph.ainvoke(Command(resume=body.model_dump(exclude_none=True)), config)
+    return _view(run_id, await conversation_graph.aget_state(config))

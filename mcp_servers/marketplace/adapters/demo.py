@@ -30,6 +30,7 @@ DEMO_JOBS = [
 class DemoMarketplace:
     def __init__(self):
         self.drafts: dict[str, dict] = {}
+        self.messages: dict[str, dict] = {}
 
     async def list_jobs(self) -> list[JobSpec]:
         return DEMO_JOBS
@@ -47,3 +48,12 @@ class DemoMarketplace:
         if dry_run:
             return {**preview, "dry_run": True}
         return self.drafts.setdefault(idempotency_key, {**preview, "draft_id": f"draft-{idempotency_key}"})
+
+    async def send_message(
+        self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
+    ) -> dict:
+        await self.get_job(job_id)
+        preview = {"job_id": job_id, "text": text, "idempotency_key": idempotency_key, "synthetic": True}
+        if dry_run:
+            return {**preview, "dry_run": True}
+        return self.messages.setdefault(idempotency_key, {**preview, "message_id": f"message-{idempotency_key}"})

@@ -69,18 +69,18 @@ def page(canvas, doc):
     canvas.drawString(0.65 * inch, height - 0.42 * inch, "GIGBID  /  INTERIM R&D REPORT")
     canvas.setFont("Helvetica", 8)
     canvas.setFillColor(gray)
-    canvas.drawRightString(width - 0.65 * inch, 0.42 * inch, f"7 Nov 2026  |  Page {doc.page}")
+    canvas.drawRightString(width - 0.65 * inch, 0.42 * inch, f"8 Nov 2026  |  Page {doc.page}")
     canvas.restoreState()
 
 
 story = []
 story += [Spacer(1, 0.75 * inch), p("GigBid", "CoverTitle"), p("Research & Development Report - Interim Draft", "Sub")]
-story += [p("Individual AI-4016 Assignment II | Development checkpoint: 7 November 2026", "Bodyx")]
+story += [p("Individual AI-4016 Assignment II | Development checkpoint: 8 November 2026", "Bodyx")]
 story += [Spacer(1, 0.2 * inch)]
 story += [table([
     ["Status", "Evidence at this checkpoint"],
-    ["Prototype", "A local React/FastAPI application, LangGraph bid workflow, Portfolio MCP evidence server, and synthetic Marketplace MCP adapter exist."],
-    ["Verified", "Five automated tests and the React production build pass. The Docker stack runs; a pending approval survived an API restart and was then approved."],
+    ["Prototype", "A local React/FastAPI application, bid and conversation LangGraph workflows, and three development MCP servers exist."],
+    ["Verified", "Eight automated tests and the React production build pass. An earlier Docker bid run survived an API restart; the newer conversation path awaits a container check."],
     ["Unavailable", "The instructor's GigSim starter kit and official evaluation data were not attached to the Classroom assignment at the time of this report."],
     ["Submission", "This is an interim draft. It must not be treated as the final measured R&D submission."],
 ], [1.2 * inch, 5.55 * inch])]
@@ -89,16 +89,16 @@ story += [p("Can an evidence-grounded, human-reviewed agent workflow prepare saf
 story += [PageBreak()]
 
 story += [heading("1. System design")]
-story += [p("The web inbox sends a job identifier to FastAPI. A typed marketplace port loads the job through the synthetic Marketplace MCP server in the Docker stack. A LangGraph fan-out runs an analyst, risk assessor, and fit matcher in parallel. The fit matcher calls the Portfolio MCP server's <b>search_evidence</b> tool through a real MCP stdio session. A decision node selects bid, watch, or skip from configuration thresholds. The bid branch prepares a price and a cited proposal draft, checks claim support and prohibited phrases, and pauses at a human approval interrupt. A synthetic draft is created only after approval of the unchanged text.")]
+story += [p("The web inbox sends a job identifier to FastAPI. A typed marketplace port loads the job through the synthetic Marketplace MCP server in the Docker stack. A LangGraph fan-out runs an analyst, risk assessor, and fit matcher in parallel. The fit matcher calls the Portfolio MCP server's <b>search_evidence</b> tool through a real MCP stdio session. A decision node selects bid, watch, or skip from configuration thresholds. The bid branch prepares a price and a cited proposal draft, checks claim support and prohibited phrases, and pauses at a human approval interrupt. A synthetic draft is created only after approval. A separate conversation graph classifies a synthetic client message, reads mock interview slots through Workspace MCP, drafts a reply, and pauses before recording a synthetic message.")]
 story += [table([
     ["Boundary", "Current implementation", "Remaining integration"],
-    ["Marketplace", "Typed port with synthetic MCP-backed draft adapter", "Instructor GigSim adapter and durable write idempotency"],
+    ["Marketplace", "Typed port with synthetic MCP-backed draft and message tools", "Instructor GigSim adapter and durable write idempotency"],
     ["Evidence", "Portfolio MCP server over synthetic records", "Consented CV, repositories, case studies, and evaluated retrieval"],
     ["State", "Memory locally; optional Postgres checkpointer in Docker", "Restart test, outbox, scheduling, multi-tenant isolation"],
-    ["Human control", "Dry-run preview and approval interrupt", "Full reviewer studio and conversation escalation"],
+    ["Human control", "Dry-run previews and bid/message approval interrupts", "Full reviewer studio and conversation escalation"],
 ], [1.05 * inch, 2.65 * inch, 3.05 * inch])]
 story += [subheading("Safety invariants")]
-story += [p("The demo adapter performs no live marketplace action. Rejection creates no draft. An edited draft is held for renewed claim and compliance review. The approval path uses a separate idempotency key for the real draft. The API can require reviewer HTTP Basic authentication when both environment variables are configured; public deployment must use HTTPS and stronger tenant controls.")]
+story += [p("The demo adapter performs no live marketplace action. Rejection creates no draft or message. An edited proposal is held for renewed claim and compliance review; an edited reply is checked against forbidden phrases. Approval paths use separate idempotency keys. The Workspace server stores only local mock holds and email drafts. The API can require reviewer HTTP Basic authentication when both environment variables are configured; public deployment must use HTTPS and stronger tenant controls.")]
 story += [subheading("Traceability")]
 story += [p("Each graph run stores state and event labels, including extracted requirements, risk check, portfolio fit, decision, price, draft, compliance, and human action. A containerized run paused at approval, survived an API restart through Postgres, and finished after approval. This demonstrates checkpoint recovery for one synthetic run, not exactly-once marketplace writes under arbitrary failure.")]
 story += [PageBreak()]
@@ -107,10 +107,10 @@ story += [heading("2. Verification and R&D method")]
 story += [p("The present checks establish only that the local development slice behaves as designed. They are not measurements on the assignment's hidden or official data.")]
 story += [table([
     ["Check", "Observed result", "Interpretation"],
-    ["Automated Python tests", "5 passed on 7 Nov 2026", "Approval and rejection paths, MCP adapter behavior, and reviewer authentication work in the local test process."],
-    ["React production build", "Passed on 7 Nov 2026", "TypeScript and Vite compile the current UI."],
+    ["Automated Python tests", "8 passed on 7 Nov 2026", "Bid and conversation approvals, MCP mock behavior, and reviewer authentication work in the local test process."],
+    ["React production build", "Passed on 7 Nov 2026", "TypeScript and Vite compile the current UI, including message review."],
     ["MCP protocol call", "search_evidence returned typed synthetic records", "The portfolio server can be called over MCP, and the fit node uses that path."],
-    ["Docker Compose", "Stack started and HTTP route responded", "An MCP-backed pending approval survived API restart; approval created one synthetic draft. A risk-flagged job skipped without a draft."],
+    ["Docker Compose", "Earlier bid check passed; new check pending", "An MCP-backed bid approval survived API restart and created one synthetic draft. Docker stopped after a host restart before the conversation path could be checked."],
 ], [1.5 * inch, 1.8 * inch, 3.45 * inch])]
 story += [subheading("Planned evaluation after the official kit arrives")]
 story += [p("Preserve the instructor's provided fixtures and train/dev/test split. Register the exact corpus and parser versions. Compare a transparent keyword baseline against at least four retrieval variants, including sparse, dense, hybrid, and reranked retrieval where feasible. Measure retrieval recall at k, citation support, unsupported claim rate, proposal quality with calibrated human judging, latency, and cost. Report confidence intervals and results by persona and job type. Include an ablation for evidence retrieval and a baseline graph comparison. Use the prescribed GigSim outcomes and release no hidden labels into the model prompt.")]
@@ -119,18 +119,18 @@ story += [p("The final report should include the exact dataset count, exclusions
 story += [PageBreak()]
 
 story += [heading("3. Limitations and next steps")]
-story += [p("The synthetic jobs and evidence are small and hand-written. The deterministic writer does not demonstrate LLM reasoning or response quality. The current graph lacks the required conversation workflow, workspace MCP layer, real model service, scheduled worker, full RAG study, browser end-to-end suite, public deployment, and portfolio publication. The only verified outcome is prototype behavior on the included examples.")]
+story += [p("The synthetic jobs and evidence are small and hand-written. The deterministic writer does not demonstrate LLM reasoning or response quality. The project still lacks the official GigSim adapter, real model service, scheduled worker, full RAG study, browser end-to-end suite, public deployment, and portfolio publication. The only verified outcome is prototype behavior on the included examples.")]
 story += [table([
     ["Priority", "Required work", "Acceptance evidence"],
     ["1", "Obtain and inspect the official GigSim kit and evaluation data", "Adapter contract, unchanged fixtures, data card"],
-    ["2", "Complete marketplace and workspace MCP access, conversation graph, and persistent writes", "Inspector snapshots, restart and isolation tests"],
+    ["2", "Complete GigSim integration, durable external writes, and conversation verification", "Inspector snapshots, restart and isolation tests"],
     ["3", "Run measured RAG and graph evaluations", "Reproducible scripts, labeled results, human panel, ablations"],
     ["4", "Deploy, publish, record, and submit", "Live URLs, final commit, three-minute video, final PDF, private reviewer comment"],
 ], [0.8 * inch, 3.4 * inch, 2.55 * inch])]
 story += [Spacer(1, 0.3 * inch), p("Integrity note", "H1x")]
 story += [p("No result in this document is described as an instructor evaluation. The report should be revised after the complete system and official data are available. A final submission must provide working public links and one coherent Classroom submission before the deadline.")]
 story += [Spacer(1, 0.25 * inch), p("Source and reproducibility", "H1x")]
-story += [p("Implementation source: local GigBid repository, main branch, development checkpoint. Assignment requirements: AI-4016 Assignment II brief in the course Classroom item, accessed 7 November 2026. Commands: <b>PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python3 -m pytest -q</b>, <b>npm run build</b>, and <b>docker compose -f infra/docker-compose.yml config --quiet</b>.")]
+story += [p("Implementation source: GigBid public GitHub repository, main branch, development checkpoint. Assignment requirements: AI-4016 Assignment II brief in the course Classroom item, accessed 7 November 2026. Commands: <b>PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python3 -m pytest -q</b>, <b>npm run build</b>, and <b>docker compose -f infra/docker-compose.yml config --quiet</b>.")]
 
 doc = SimpleDocTemplate(str(OUTPUT), pagesize=(8.5 * inch, 11 * inch), leftMargin=0.7 * inch, rightMargin=0.7 * inch, topMargin=0.8 * inch, bottomMargin=0.7 * inch, title="GigBid Interim R&D Report", author="Fazal Zaman Khan")
 doc.build(story, onFirstPage=page, onLaterPages=page)

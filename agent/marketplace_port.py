@@ -12,3 +12,7 @@ class MarketplacePort(Protocol):
     async def create_proposal_draft(
         self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
     ) -> dict: ...
+
+    async def send_message(
+        self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
+    ) -> dict: ...
