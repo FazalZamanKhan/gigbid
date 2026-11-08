@@ -10,8 +10,8 @@
 | Public GitHub repository and on-time final commit | [Public repository](https://github.com/FazalZamanKhan/gigbid) exists; interim commits on time, final commit still pending |
 | Measured R&D report PDF | Pending real experiments and results |
 | Three-minute demo video | Pending working end-to-end app |
-| Published Portfolio MCP server | Installable CLI prepared; public release and remote install check pending |
-| Published technical write-up | Pending real findings |
+| Published Portfolio MCP server | [Synthetic development release](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio) and documented `uvx` command live; Git-tag installation and MCP call verified |
+| Published technical write-up | [1,500-word article](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html) live; explicitly discloses synthetic development scope |
 | Optional source ZIP | Interim source archive prepared locally; regenerate from the final commit only if requested |
 | Google Classroom submission and private reviewer comment | Correct assignment page found; submission pending completed artifacts |
 
@@ -24,7 +24,7 @@
 | Multi-agent graphs (25) | Parallel bid analysis; bid and conversation approval interrupts; Postgres checkpoint recovered a pending bid approval after API restart | LLM roles, critic loop, memory, baselines, external-write crash proof, tracing |
 | Web interface (15) | React inbox, bid review, and synthetic message review screens; production build passes | Auth/onboarding, full proposal studio, pipeline, analytics, settings, live streaming, five Playwright tests |
 | Production engineering (10) | Partial Docker Compose previously started; web/API/Postgres/Redis responded; reviewer API auth and CI pass; single-origin preview entry point tested locally | Complete Docker Compose, worker, official eval gates, budgets, OAuth encryption, tenant isolation, deployment and live monitoring |
-| Portfolio and report (10) | README, architecture notes, a four-page interim PDF, and unpublished write-up/demo outlines | Final measured report PDF, demo video, three public traces, published MCP package and write-up, résumé bullet |
+| Portfolio and report (10) | README, architecture notes, a four-page interim PDF, a published synthetic Portfolio MCP release, and a published technical write-up | Final measured report PDF, demo video, three public traces, résumé bullet |
 
 **Current verification:** `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q` passed 15 tests on 8 November 2026; `npm run build` passed; [GitHub CI](https://github.com/FazalZamanKhan/gigbid/actions) passed the prior push. The local browser completed a synthetic bid review and approved a synthetic client reply. The retrieval harness ran V0/V1/V2/V8 with a real BGE embedding model on four trivial synthetic queries; all retrieved the relevant item, so this is a smoke check rather than comparative evidence. The cross-encoder model download failed on a network error. In the previous Docker build, a bid run survived an API restart and created one synthetic draft. Docker is currently stopped, so the newer conversation and hosted entry point have not had a container check. These checks do not predict a grade.
 

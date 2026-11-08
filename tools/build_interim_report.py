@@ -120,7 +120,7 @@ story += [p("The final report should include the exact dataset count, exclusions
 story += [PageBreak()]
 
 story += [heading("3. Limitations and next steps")]
-story += [p("The synthetic jobs and evidence are small and hand-written. The deterministic writer does not demonstrate LLM reasoning or response quality. The retrieval smoke fixture has only four straightforward queries; perfect retrieval there cannot justify a production variant. The project still lacks the official GigSim adapter, real model service, scheduled worker, full RAG study, browser end-to-end suite, public deployment, and portfolio publication. The only verified outcome is prototype behavior on the included examples.")]
+story += [p("The synthetic jobs and evidence are small and hand-written. The deterministic writer does not demonstrate LLM reasoning or response quality. The retrieval smoke fixture has only four straightforward queries; perfect retrieval there cannot justify a production variant. The project still lacks the official GigSim adapter, real model service, scheduled worker, full RAG study, browser end-to-end suite, and public application deployment. The synthetic Portfolio MCP development release and technical write-up are public. The only verified system outcome is prototype behavior on the included examples.")]
 story += [table([
     ["Priority", "Required work", "Acceptance evidence"],
     ["1", "Obtain and inspect the official GigSim kit and evaluation data", "Adapter contract, unchanged fixtures, data card"],

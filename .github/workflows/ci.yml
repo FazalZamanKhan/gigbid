@@ -37,3 +37,10 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Typecheck and build
         run: npm run build
+
+  hosted-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build single-origin preview image
+        run: docker build -f infra/docker/public.Dockerfile -t gigbid-preview:ci .

@@ -32,5 +32,5 @@ An optional single-origin hosting entry point is `apps.api.public:app`; `render.
 
 See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) is live; no public application URL, official evaluation number, trace, demo video, or final report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
 
-The 1,500-word [technical write-up](docs/TECHNICAL_WRITEUP.md) describes the current prototype and its limitations. A GitHub Pages publication is being prepared.
+The [published technical write-up](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html) describes the current prototype and its limitations. The synthetic [Portfolio MCP development release](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio) has a documented `uvx` command and was installed from its public tag for an independent MCP protocol call.
 The [interim R&D PDF](output/pdf/GigBid_RD_Report_INTERIM.pdf) records verified engineering checks and explicitly leaves official evaluation results open. It is not the final report.
