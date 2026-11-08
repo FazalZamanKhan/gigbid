@@ -4,6 +4,37 @@ GigBid is an **in-progress** AI-4016 Assignment II project. This repository is b
 
 [![GigBid CI](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml/badge.svg)](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml)
 
+## Architecture
+
+```mermaid
+flowchart LR
+    UI[React review desk] --> API[FastAPI]
+    API --> BID[Bid LangGraph]
+    API --> CONV[Conversation LangGraph]
+    BID --> MARKET[Marketplace port and synthetic MCP]
+    BID --> PORT[Portfolio MCP]
+    BID --> GATE[Human proposal approval]
+    CONV --> WORK[Workspace MCP mock]
+    CONV --> MSG[Human reply approval]
+    GATE --> MARKET
+    MSG --> MARKET
+    BID -. checkpoint .-> PG[Postgres optional]
+    CONV -. checkpoint .-> PG
+```
+
+## Development measurements
+
+These are **four easy synthetic queries over six hand-written chunks**, not the assignment's official retrieval results. All variants tied, so no production retriever has been selected.
+
+| Retrieval path | Recall@5 | p95 query latency |
+| --- | ---: | ---: |
+| V0 dense | 1.00 | 174 ms |
+| V1 decomposition | 1.00 | 707 ms |
+| V2 BM25 + dense fusion | 1.00 | 320 ms |
+| V8 corrective graph | 1.00 | 409 ms |
+
+The [raw synthetic result and provenance](evals/results/synthetic_retrieval.json) record the exact four cases. V3 and V4 await a cross-encoder model download. The required single-agent and supervisor baselines have not been run; their comparison remains open until the prescribed data and simulator are available.
+
 ## Current development slice
 
 - A typed marketplace port has local direct and MCP-backed synthetic adapters. The GigSim adapter will be wired to the provided simulator's actual API after the starter kit arrives.

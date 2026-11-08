@@ -80,7 +80,7 @@ story += [Spacer(1, 0.2 * inch)]
 story += [table([
     ["Status", "Evidence at this checkpoint"],
     ["Prototype", "A local React/FastAPI application, bid and conversation LangGraph workflows, and three development MCP servers exist."],
-    ["Verified", "Fifteen automated tests, the React production build, and GitHub CI pass. An earlier Docker bid run survived an API restart; the newer conversation path awaits a container check."],
+    ["Verified", "Sixteen automated tests, the React production build, and GitHub CI pass. An earlier Docker bid run survived an API restart; the newer conversation path awaits a container check."],
     ["Unavailable", "The instructor's GigSim starter kit and official evaluation data were not attached to the Classroom assignment at the time of this report."],
     ["Submission", "This is an interim draft. It must not be treated as the final measured R&D submission."],
 ], [1.2 * inch, 5.55 * inch])]
@@ -98,7 +98,7 @@ story += [table([
     ["Human control", "Dry-run previews and bid/message approval interrupts", "Full reviewer studio and conversation escalation"],
 ], [1.05 * inch, 2.65 * inch, 3.05 * inch])]
 story += [subheading("Safety invariants")]
-story += [p("The demo adapter performs no live marketplace action. Rejection creates no draft or message. An edited proposal is held for renewed claim and compliance review; an edited reply is checked against forbidden phrases. Approval paths use separate idempotency keys. The Workspace server stores only local mock holds and email drafts. The API can require reviewer HTTP Basic authentication when both environment variables are configured; public deployment must use HTTPS and stronger tenant controls.")]
+story += [p("The demo adapter performs no live marketplace action. Rejection creates no draft or message. A job post with an instruction aimed at the assistant is hard-skipped, even if its numeric risk score is below the general threshold. An edited proposal is held for renewed claim and compliance review; an edited reply is checked against forbidden phrases. Approval paths use separate idempotency keys. The Workspace server stores only local mock holds and email drafts. The API can require reviewer HTTP Basic authentication when both environment variables are configured; public deployment must use HTTPS and stronger tenant controls.")]
 story += [subheading("Traceability")]
 story += [p("Each graph run stores state and event labels, including extracted requirements, risk check, portfolio fit, decision, price, draft, compliance, and human action. A containerized run paused at approval, survived an API restart through Postgres, and finished after approval. This demonstrates checkpoint recovery for one synthetic run, not exactly-once marketplace writes under arbitrary failure.")]
 story += [PageBreak()]
@@ -107,7 +107,7 @@ story += [heading("2. Verification and R&D method")]
 story += [p("The present checks establish only that the local development slice behaves as designed. They are not measurements on the assignment's hidden or official data.")]
 story += [table([
     ["Check", "Observed result", "Interpretation"],
-    ["Automated Python tests", "15 passed on 8 Nov 2026", "Bid and conversation approvals, MCP mock behavior, retrieval control flow, API routing, and reviewer authentication work locally."],
+    ["Automated Python tests", "16 passed on 8 Nov 2026", "Bid and conversation approvals, MCP mock behavior, retrieval control flow, API routing, and reviewer authentication work locally."],
     ["React production build", "Passed on 8 Nov 2026", "TypeScript and Vite compile the current UI, including message review."],
     ["MCP protocol call", "search_evidence returned typed synthetic records", "The portfolio server can be called over MCP, and the fit node uses that path."],
     ["Retrieval smoke", "4 tiny synthetic queries; V0/V1/V2/V8 returned all gold items", "Real BGE embeddings ran; this trivial fixture is not comparative evidence or an official result. Cross-encoder model fetch is pending."],

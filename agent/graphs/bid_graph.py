@@ -73,7 +73,9 @@ def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
         risk = RiskReport.model_validate(state["risk"])
         fit = FitReport.model_validate(state["fit"])
         job = JobSpec.model_validate(state["job"])
-        if risk.score > policy["maximum_risk_score"]:
+        if risk.injected_instruction:
+            decision = BidDecision(action=Decision.SKIP, reason="Job post contains an instruction aimed at the assistant")
+        elif risk.score > policy["maximum_risk_score"]:
             decision = BidDecision(action=Decision.SKIP, reason="Risk flags: " + ", ".join(risk.flags))
         elif fit.score < policy["minimum_fit_score"]:
             decision = BidDecision(action=Decision.SKIP, reason="Portfolio evidence does not cover enough requirements")

@@ -37,3 +37,17 @@ def test_approved_bid_creates_one_draft_and_scam_skips():
         assert "approval" not in scam.next
         assert len(marketplace.drafts) == 1
     asyncio.run(exercise())
+
+
+def test_injected_job_instruction_is_ignored_and_skipped():
+    async def exercise():
+        marketplace = DemoMarketplace()
+        graph = build_bid_graph(marketplace)
+        config = {"configurable": {"thread_id": "injection-review"}}
+        await graph.ainvoke({"job_id": "demo-3", "events": []}, config)
+        snapshot = await graph.aget_state(config)
+        assert snapshot.values["risk"]["injected_instruction"] is True
+        assert snapshot.values["decision"]["action"] == "skip"
+        assert "approval" not in snapshot.next
+        assert marketplace.drafts == {}
+    asyncio.run(exercise())

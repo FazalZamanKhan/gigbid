@@ -12,7 +12,7 @@ def test_single_origin_serves_web_and_api():
             assert (await client.get("/api/health")).json()["status"] == "ok"
             if web_dist.is_dir():
                 assert "GigBid" in (await client.get("/")).text
-            assert len((await client.get("/api/jobs")).json()) == 2
+            assert len((await client.get("/api/jobs")).json()) == 3
     asyncio.run(exercise())
 
 
