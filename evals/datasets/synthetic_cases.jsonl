@@ -1,0 +1,4 @@
+{"id":"syn-q1","persona":"synthetic","job_type":"dashboard","query":"Build a Python analytics dashboard from CSV files","requirements":["Python CSV cleaning","analytics dashboard"],"gold_evidence_ids":["syn-e1"]}
+{"id":"syn-q2","persona":"synthetic","job_type":"backend","query":"Set up Celery and Redis background jobs","requirements":["Celery task queue","Redis"],"gold_evidence_ids":["syn-e2"]}
+{"id":"syn-q3","persona":"synthetic","job_type":"data","query":"Improve dbt SQL transformations and warehouse tests","requirements":["dbt SQL","warehouse tests"],"gold_evidence_ids":["syn-e4"]}
+{"id":"syn-q4","persona":"synthetic","job_type":"search","query":"Build Pinecone semantic retrieval","requirements":["Pinecone index","semantic retrieval"],"gold_evidence_ids":["syn-e5"]}

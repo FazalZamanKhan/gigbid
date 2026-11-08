@@ -46,14 +46,13 @@ app = FastAPI(title="GigBid development API", version="0.1.0", lifespan=lifespan
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])
 
 
-@app.middleware("http")
-async def reviewer_auth(request: Request, call_next):
+def reviewer_auth_response(request: Request) -> Response | None:
     username = os.getenv("GIGBID_REVIEWER_USERNAME")
     password = os.getenv("GIGBID_REVIEWER_PASSWORD")
-    if request.url.path == "/health" or request.method == "OPTIONS":
-        return await call_next(request)
+    if request.url.path in {"/health", "/api/health"} or request.method == "OPTIONS":
+        return None
     if not username and not password:
-        return await call_next(request)
+        return None
     if not username or not password:
         return Response("Reviewer authentication is misconfigured", status_code=503)
     authorization = request.headers.get("authorization", "")
@@ -68,7 +67,13 @@ async def reviewer_auth(request: Request, call_next):
         and secrets.compare_digest(supplied_password, password)
     ):
         return Response(status_code=401, headers={"WWW-Authenticate": 'Basic realm="GigBid Reviewer"'})
-    return await call_next(request)
+    return None
+
+
+@app.middleware("http")
+async def reviewer_auth(request: Request, call_next):
+    denial = reviewer_auth_response(request)
+    return denial if denial is not None else await call_next(request)
 
 
 class ApprovalInput(BaseModel):

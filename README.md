@@ -2,6 +2,8 @@
 
 GigBid is an **in-progress** AI-4016 Assignment II project. This repository is being built while the instructor's GigSim starter kit and evaluation data are obtained. The current demo uses synthetic local jobs and a deterministic draft; it is **not** a completed submission, deployed application, or measured R&D result.
 
+[![GigBid CI](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml/badge.svg)](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml)
+
 ## Current development slice
 
 - A typed marketplace port has local direct and MCP-backed synthetic adapters. The GigSim adapter will be wired to the provided simulator's actual API after the starter kit arrives.
@@ -9,6 +11,7 @@ GigBid is an **in-progress** AI-4016 Assignment II project. This repository is b
 - A second LangGraph workflow classifies synthetic client replies, asks the Workspace MCP mock for interview slots, and pauses for approval before recording a synthetic message.
 - A FastAPI API exposes jobs, bid and conversation runs, approvals, and health. The React UI displays the inbox, proposal review, and message review. It restores the last runs after a page reload when their checkpoints are available.
 - Portfolio MCP provides read-only evidence tools and resource templates. A separate development Marketplace MCP server exposes synthetic job reads, a guarded draft tool, and a guarded message tool. The Workspace MCP server provides a local mock calendar and email draft store.
+- A separate [retrieval experiment harness](docs/RAG_EVAL.md) runs V0, V1, V2, V3, V4 and a V8 LangGraph corrective path on caller-supplied labeled data. Only a four-query synthetic smoke run is available so far; it cannot select a production variant.
 
 ## Run locally
 
@@ -23,9 +26,11 @@ For the web UI, run `cd apps/web && npm install && npm run dev`. The API is at `
 
 The partial containerized development stack runs with `docker compose -f infra/docker-compose.yml up --build` and serves the UI at `http://localhost:8080`. It uses Postgres for checkpoints and launches local MCP servers through stdio, but does not yet include the required GigSim, worker, or model service.
 
+An optional single-origin hosting entry point is `apps.api.public:app`; `render.yaml` describes a free synthetic preview with Postgres checkpoints. Render's free Postgres expires after 30 days, so the preview needs maintenance or migration if grades remain pending. No public application has been deployed yet.
+
 ## Assignment status
 
-See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. No public URL, evaluation number, trace, demo video, or report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
+See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) is live; no public application URL, official evaluation number, trace, demo video, or final report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
 
-The draft [technical write-up](docs/TECHNICAL_WRITEUP.md) describes the current prototype and its limitations. It is not yet published externally.
+The 1,500-word [technical write-up](docs/TECHNICAL_WRITEUP.md) describes the current prototype and its limitations. A GitHub Pages publication is being prepared.
 The [interim R&D PDF](output/pdf/GigBid_RD_Report_INTERIM.pdf) records verified engineering checks and explicitly leaves official evaluation results open. It is not the final report.

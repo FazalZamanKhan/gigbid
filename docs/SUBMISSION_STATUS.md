@@ -1,31 +1,31 @@
-# Submission status — 7 November 2026
+# Submission status — 8 November 2026
 
 **Deadline:** 12 November 2026, 11:59 PM PKT. Submit all required items together on the correct Google Classroom assignment. Commit final code before the deadline.
 
 | Deliverable | Status |
 | --- | --- |
-| GigSim starter and dev set | Not attached in the AI4015 Classroom Assignment 2 item as of 7 November; classmates have also requested it in comments |
-| Required full-stack application | In progress; local demo slice only |
+| GigSim starter and dev set | Not attached in the AI-4016 Classroom Assignment II item as of 8 November; classmates have also requested it in comments |
+| Required full-stack application | In progress; local synthetic bid and conversation slices work |
 | Public deployment and reviewer login | Pending |
-| Public GitHub repository and on-time final commit | Pending |
+| Public GitHub repository and on-time final commit | [Public repository](https://github.com/FazalZamanKhan/gigbid) exists; interim commits on time, final commit still pending |
 | Measured R&D report PDF | Pending real experiments and results |
 | Three-minute demo video | Pending working end-to-end app |
-| Published Portfolio MCP server | Pending packaging and release |
+| Published Portfolio MCP server | Installable CLI prepared; public release and remote install check pending |
 | Published technical write-up | Pending real findings |
 | Optional source ZIP | Interim source archive prepared locally; regenerate from the final commit only if requested |
-| Google Classroom submission and private reviewer comment | Correct AI4015 course and Assignment 2 page found; submission pending completed artifacts |
+| Google Classroom submission and private reviewer comment | Correct assignment page found; submission pending completed artifacts |
 
 ## Rubric audit
 
 | Area | Verified now | Major work still required |
 | --- | --- | --- |
 | MCP tool layer (20) | Portfolio, synthetic Marketplace, and local mock Workspace MCP servers; Docker graphs invoke them through MCP | GigSim, third-party integrations, production auth, schema snapshots, Inspector evidence, MCP-only access for remaining capabilities |
-| Advanced RAG (20) | A keyword-based demo retriever and conservative citation check | CV/repo ingestion, V0 plus four measured variants, judge calibration, human panel, ablation, per-persona and job-type results |
+| Advanced RAG (20) | Keyword demo retriever and conservative citation check; V0/V1/V2/V3/V4/V8 experiment harness; BGE embedding smoke run on four synthetic cases | Official corpus/results, cross-encoder model download, chosen deployed variant, judge calibration, human panel, ablation, per-persona and job-type evidence |
 | Multi-agent graphs (25) | Parallel bid analysis; bid and conversation approval interrupts; Postgres checkpoint recovered a pending bid approval after API restart | LLM roles, critic loop, memory, baselines, external-write crash proof, tracing |
 | Web interface (15) | React inbox, bid review, and synthetic message review screens; production build passes | Auth/onboarding, full proposal studio, pipeline, analytics, settings, live streaming, five Playwright tests |
-| Production engineering (10) | Partial Docker Compose starts; web/API/Postgres/Redis respond; reviewer API authentication tests pass | Complete Docker Compose, worker, CI/eval gates, budgets, OAuth encryption, tenant isolation, deployment and live monitoring |
+| Production engineering (10) | Partial Docker Compose previously started; web/API/Postgres/Redis responded; reviewer API auth and CI pass; single-origin preview entry point tested locally | Complete Docker Compose, worker, official eval gates, budgets, OAuth encryption, tenant isolation, deployment and live monitoring |
 | Portfolio and report (10) | README, architecture notes, a four-page interim PDF, and unpublished write-up/demo outlines | Final measured report PDF, demo video, three public traces, published MCP package and write-up, résumé bullet |
 
-**Current verification:** `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python3 -m pytest -q` passed 8 tests on 7 November 2026; `npm run build` passed. In the previous Docker build, a `demo-1` bid run paused for approval, survived `docker compose restart api`, and created a synthetic draft after approval; `demo-2` skipped with no draft. The new conversation path has passed local automated tests; its container and restart checks are in progress. These checks cover only the synthetic development slice. They do not predict a grade.
+**Current verification:** `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q` passed 15 tests on 8 November 2026; `npm run build` passed; [GitHub CI](https://github.com/FazalZamanKhan/gigbid/actions) passed the prior push. The local browser completed a synthetic bid review and approved a synthetic client reply. The retrieval harness ran V0/V1/V2/V8 with a real BGE embedding model on four trivial synthetic queries; all retrieved the relevant item, so this is a smoke check rather than comparative evidence. The cross-encoder model download failed on a network error. In the previous Docker build, a bid run survived an API restart and created one synthetic draft. Docker is currently stopped, so the newer conversation and hosted entry point have not had a container check. These checks do not predict a grade.
 
 Do not fill missing results or URLs with invented values. The Assignment 1 Meeting Sentinel project is unrelated and remains untouched.

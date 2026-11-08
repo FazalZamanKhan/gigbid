@@ -80,7 +80,7 @@ story += [Spacer(1, 0.2 * inch)]
 story += [table([
     ["Status", "Evidence at this checkpoint"],
     ["Prototype", "A local React/FastAPI application, bid and conversation LangGraph workflows, and three development MCP servers exist."],
-    ["Verified", "Eight automated tests and the React production build pass. An earlier Docker bid run survived an API restart; the newer conversation path awaits a container check."],
+    ["Verified", "Fifteen automated tests, the React production build, and GitHub CI pass. An earlier Docker bid run survived an API restart; the newer conversation path awaits a container check."],
     ["Unavailable", "The instructor's GigSim starter kit and official evaluation data were not attached to the Classroom assignment at the time of this report."],
     ["Submission", "This is an interim draft. It must not be treated as the final measured R&D submission."],
 ], [1.2 * inch, 5.55 * inch])]
@@ -93,7 +93,7 @@ story += [p("The web inbox sends a job identifier to FastAPI. A typed marketplac
 story += [table([
     ["Boundary", "Current implementation", "Remaining integration"],
     ["Marketplace", "Typed port with synthetic MCP-backed draft and message tools", "Instructor GigSim adapter and durable write idempotency"],
-    ["Evidence", "Portfolio MCP server over synthetic records", "Consented CV, repositories, case studies, and evaluated retrieval"],
+    ["Evidence", "Portfolio MCP over synthetic records; six retrieval variants in an experiment harness", "Consented portfolio, official labels, chosen measured retrieval design"],
     ["State", "Memory locally; optional Postgres checkpointer in Docker", "Restart test, outbox, scheduling, multi-tenant isolation"],
     ["Human control", "Dry-run previews and bid/message approval interrupts", "Full reviewer studio and conversation escalation"],
 ], [1.05 * inch, 2.65 * inch, 3.05 * inch])]
@@ -107,9 +107,10 @@ story += [heading("2. Verification and R&D method")]
 story += [p("The present checks establish only that the local development slice behaves as designed. They are not measurements on the assignment's hidden or official data.")]
 story += [table([
     ["Check", "Observed result", "Interpretation"],
-    ["Automated Python tests", "8 passed on 7 Nov 2026", "Bid and conversation approvals, MCP mock behavior, and reviewer authentication work in the local test process."],
-    ["React production build", "Passed on 7 Nov 2026", "TypeScript and Vite compile the current UI, including message review."],
+    ["Automated Python tests", "15 passed on 8 Nov 2026", "Bid and conversation approvals, MCP mock behavior, retrieval control flow, API routing, and reviewer authentication work locally."],
+    ["React production build", "Passed on 8 Nov 2026", "TypeScript and Vite compile the current UI, including message review."],
     ["MCP protocol call", "search_evidence returned typed synthetic records", "The portfolio server can be called over MCP, and the fit node uses that path."],
+    ["Retrieval smoke", "4 tiny synthetic queries; V0/V1/V2/V8 returned all gold items", "Real BGE embeddings ran; this trivial fixture is not comparative evidence or an official result. Cross-encoder model fetch is pending."],
     ["Docker Compose", "Earlier bid check passed; new check pending", "An MCP-backed bid approval survived API restart and created one synthetic draft. Docker stopped after a host restart before the conversation path could be checked."],
 ], [1.5 * inch, 1.8 * inch, 3.45 * inch])]
 story += [subheading("Planned evaluation after the official kit arrives")]
@@ -119,7 +120,7 @@ story += [p("The final report should include the exact dataset count, exclusions
 story += [PageBreak()]
 
 story += [heading("3. Limitations and next steps")]
-story += [p("The synthetic jobs and evidence are small and hand-written. The deterministic writer does not demonstrate LLM reasoning or response quality. The project still lacks the official GigSim adapter, real model service, scheduled worker, full RAG study, browser end-to-end suite, public deployment, and portfolio publication. The only verified outcome is prototype behavior on the included examples.")]
+story += [p("The synthetic jobs and evidence are small and hand-written. The deterministic writer does not demonstrate LLM reasoning or response quality. The retrieval smoke fixture has only four straightforward queries; perfect retrieval there cannot justify a production variant. The project still lacks the official GigSim adapter, real model service, scheduled worker, full RAG study, browser end-to-end suite, public deployment, and portfolio publication. The only verified outcome is prototype behavior on the included examples.")]
 story += [table([
     ["Priority", "Required work", "Acceptance evidence"],
     ["1", "Obtain and inspect the official GigSim kit and evaluation data", "Adapter contract, unchanged fixtures, data card"],
@@ -130,7 +131,7 @@ story += [table([
 story += [Spacer(1, 0.3 * inch), p("Integrity note", "H1x")]
 story += [p("No result in this document is described as an instructor evaluation. The report should be revised after the complete system and official data are available. A final submission must provide working public links and one coherent Classroom submission before the deadline.")]
 story += [Spacer(1, 0.25 * inch), p("Source and reproducibility", "H1x")]
-story += [p("Implementation source: GigBid public GitHub repository, main branch, development checkpoint. Assignment requirements: AI-4016 Assignment II brief in the course Classroom item, accessed 7 November 2026. Commands: <b>PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python3 -m pytest -q</b>, <b>npm run build</b>, and <b>docker compose -f infra/docker-compose.yml config --quiet</b>.")]
+story += [p("Implementation source: github.com/FazalZamanKhan/gigbid, main branch, development checkpoint. Assignment requirements: AI-4016 Assignment II brief in the course Classroom item, checked 8 November 2026. Commands: <b>PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q</b>, <b>npm run build</b>, and <b>python -m evals.runners.retrieval_eval</b> with the synthetic fixture and provenance label.")]
 
 doc = SimpleDocTemplate(str(OUTPUT), pagesize=(8.5 * inch, 11 * inch), leftMargin=0.7 * inch, rightMargin=0.7 * inch, topMargin=0.8 * inch, bottomMargin=0.7 * inch, title="GigBid Interim R&D Report", author="Fazal Zaman Khan")
 doc.build(story, onFirstPage=page, onLaterPages=page)

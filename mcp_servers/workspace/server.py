@@ -61,6 +61,8 @@ def create_tentative_hold(slot: str, idempotency_key: str, dry_run: bool = False
     with _connection() as connection:
         existing = connection.execute("SELECT slot FROM holds WHERE idempotency_key = ?", (idempotency_key,)).fetchone()
         if existing:
+            if existing[0] != slot:
+                return {"error": "idempotency_conflict", "slot": existing[0]}
             return {**preview, "slot": existing[0], "hold_id": f"hold-{idempotency_key}"}
         try:
             connection.execute("INSERT INTO holds (idempotency_key, slot) VALUES (?, ?)", (idempotency_key, slot))
@@ -80,6 +82,8 @@ def create_email_draft(recipient: str, subject: str, body: str, idempotency_key:
     with _connection() as connection:
         existing = connection.execute("SELECT recipient, subject, body FROM email_drafts WHERE idempotency_key = ?", (idempotency_key,)).fetchone()
         if existing:
+            if existing != (recipient, subject, body):
+                return {"error": "idempotency_conflict", "draft_id": f"email-draft-{idempotency_key}"}
             return {**preview, "recipient": existing[0], "subject": existing[1], "body": existing[2], "draft_id": f"email-draft-{idempotency_key}"}
         connection.execute("INSERT INTO email_drafts (idempotency_key, recipient, subject, body) VALUES (?, ?, ?, ?)", (idempotency_key, recipient, subject, body))
     return {**preview, "draft_id": f"email-draft-{idempotency_key}"}

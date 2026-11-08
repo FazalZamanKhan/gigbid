@@ -1,0 +1,635 @@
+{
+  "cases": 4,
+  "chunks": 6,
+  "index_build_ms": 608.82,
+  "variants": {
+    "v0": {
+      "aggregate": {
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "p95_latency_ms": 174.41,
+        "abstention_rate": 0.0,
+        "labeled_cases": 4,
+        "cases": 4
+      },
+      "by_persona": {
+        "synthetic": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 174.41,
+          "abstention_rate": 0.0,
+          "labeled_cases": 4,
+          "cases": 4
+        }
+      },
+      "by_job_type": {
+        "backend": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 100.95,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "dashboard": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 84.41,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "data": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 101.75,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "search": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 174.41,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "syn-q1",
+          "persona": "synthetic",
+          "job_type": "dashboard",
+          "ranked_source_ids": [
+            "syn-e1",
+            "syn-e2",
+            "syn-e6",
+            "syn-e4",
+            "syn-e5",
+            "syn-e3"
+          ],
+          "queries": [
+            "Build a Python analytics dashboard from CSV files"
+          ],
+          "abstained": false,
+          "latency_ms": 84.41,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q2",
+          "persona": "synthetic",
+          "job_type": "backend",
+          "ranked_source_ids": [
+            "syn-e2",
+            "syn-e1",
+            "syn-e4",
+            "syn-e6",
+            "syn-e3",
+            "syn-e5"
+          ],
+          "queries": [
+            "Set up Celery and Redis background jobs"
+          ],
+          "abstained": false,
+          "latency_ms": 100.95,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q3",
+          "persona": "synthetic",
+          "job_type": "data",
+          "ranked_source_ids": [
+            "syn-e4",
+            "syn-e6",
+            "syn-e5",
+            "syn-e1",
+            "syn-e3",
+            "syn-e2"
+          ],
+          "queries": [
+            "Improve dbt SQL transformations and warehouse tests"
+          ],
+          "abstained": false,
+          "latency_ms": 101.75,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q4",
+          "persona": "synthetic",
+          "job_type": "search",
+          "ranked_source_ids": [
+            "syn-e5",
+            "syn-e3",
+            "syn-e4",
+            "syn-e6",
+            "syn-e1",
+            "syn-e2"
+          ],
+          "queries": [
+            "Build Pinecone semantic retrieval"
+          ],
+          "abstained": false,
+          "latency_ms": 174.41,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        }
+      ]
+    },
+    "v1": {
+      "aggregate": {
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "p95_latency_ms": 707.33,
+        "abstention_rate": 0.0,
+        "labeled_cases": 4,
+        "cases": 4
+      },
+      "by_persona": {
+        "synthetic": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 707.33,
+          "abstention_rate": 0.0,
+          "labeled_cases": 4,
+          "cases": 4
+        }
+      },
+      "by_job_type": {
+        "backend": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 707.33,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "dashboard": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 458.21,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "data": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 688.17,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "search": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 639.41,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "syn-q1",
+          "persona": "synthetic",
+          "job_type": "dashboard",
+          "ranked_source_ids": [
+            "syn-e1",
+            "syn-e6",
+            "syn-e4",
+            "syn-e2",
+            "syn-e3",
+            "syn-e5"
+          ],
+          "queries": [
+            "Python CSV cleaning",
+            "analytics dashboard"
+          ],
+          "abstained": false,
+          "latency_ms": 458.21,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q2",
+          "persona": "synthetic",
+          "job_type": "backend",
+          "ranked_source_ids": [
+            "syn-e2",
+            "syn-e4",
+            "syn-e1",
+            "syn-e3",
+            "syn-e5",
+            "syn-e6"
+          ],
+          "queries": [
+            "Celery task queue",
+            "Redis"
+          ],
+          "abstained": false,
+          "latency_ms": 707.33,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q3",
+          "persona": "synthetic",
+          "job_type": "data",
+          "ranked_source_ids": [
+            "syn-e4",
+            "syn-e6",
+            "syn-e1",
+            "syn-e5",
+            "syn-e2",
+            "syn-e3"
+          ],
+          "queries": [
+            "dbt SQL",
+            "warehouse tests"
+          ],
+          "abstained": false,
+          "latency_ms": 688.17,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q4",
+          "persona": "synthetic",
+          "job_type": "search",
+          "ranked_source_ids": [
+            "syn-e5",
+            "syn-e3",
+            "syn-e1",
+            "syn-e4",
+            "syn-e6",
+            "syn-e2"
+          ],
+          "queries": [
+            "Pinecone index",
+            "semantic retrieval"
+          ],
+          "abstained": false,
+          "latency_ms": 639.41,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        }
+      ]
+    },
+    "v2": {
+      "aggregate": {
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "p95_latency_ms": 320.14,
+        "abstention_rate": 0.0,
+        "labeled_cases": 4,
+        "cases": 4
+      },
+      "by_persona": {
+        "synthetic": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 320.14,
+          "abstention_rate": 0.0,
+          "labeled_cases": 4,
+          "cases": 4
+        }
+      },
+      "by_job_type": {
+        "backend": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 320.14,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "dashboard": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 228.05,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "data": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 133.55,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "search": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 286.07,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "syn-q1",
+          "persona": "synthetic",
+          "job_type": "dashboard",
+          "ranked_source_ids": [
+            "syn-e1",
+            "syn-e2",
+            "syn-e4",
+            "syn-e3",
+            "syn-e6",
+            "syn-e5"
+          ],
+          "queries": [
+            "Build a Python analytics dashboard from CSV files"
+          ],
+          "abstained": false,
+          "latency_ms": 228.05,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q2",
+          "persona": "synthetic",
+          "job_type": "backend",
+          "ranked_source_ids": [
+            "syn-e2",
+            "syn-e6",
+            "syn-e4",
+            "syn-e1",
+            "syn-e3",
+            "syn-e5"
+          ],
+          "queries": [
+            "Set up Celery and Redis background jobs"
+          ],
+          "abstained": false,
+          "latency_ms": 320.14,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q3",
+          "persona": "synthetic",
+          "job_type": "data",
+          "ranked_source_ids": [
+            "syn-e4",
+            "syn-e6",
+            "syn-e5",
+            "syn-e3",
+            "syn-e1",
+            "syn-e2"
+          ],
+          "queries": [
+            "Improve dbt SQL transformations and warehouse tests"
+          ],
+          "abstained": false,
+          "latency_ms": 133.55,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q4",
+          "persona": "synthetic",
+          "job_type": "search",
+          "ranked_source_ids": [
+            "syn-e5",
+            "syn-e3",
+            "syn-e1",
+            "syn-e4",
+            "syn-e2",
+            "syn-e6"
+          ],
+          "queries": [
+            "Build Pinecone semantic retrieval"
+          ],
+          "abstained": false,
+          "latency_ms": 286.07,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        }
+      ]
+    },
+    "v8": {
+      "aggregate": {
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "p95_latency_ms": 408.97,
+        "abstention_rate": 0.0,
+        "labeled_cases": 4,
+        "cases": 4
+      },
+      "by_persona": {
+        "synthetic": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 408.97,
+          "abstention_rate": 0.0,
+          "labeled_cases": 4,
+          "cases": 4
+        }
+      },
+      "by_job_type": {
+        "backend": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 408.97,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "dashboard": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 340.4,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "data": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 208.14,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        },
+        "search": {
+          "recall_at_5": 1.0,
+          "mrr": 1.0,
+          "ndcg_at_10": 1.0,
+          "p95_latency_ms": 105.17,
+          "abstention_rate": 0.0,
+          "labeled_cases": 1,
+          "cases": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "syn-q1",
+          "persona": "synthetic",
+          "job_type": "dashboard",
+          "ranked_source_ids": [
+            "syn-e1",
+            "syn-e2",
+            "syn-e4",
+            "syn-e3",
+            "syn-e6",
+            "syn-e5"
+          ],
+          "queries": [
+            "Build a Python analytics dashboard from CSV files"
+          ],
+          "abstained": false,
+          "latency_ms": 340.4,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q2",
+          "persona": "synthetic",
+          "job_type": "backend",
+          "ranked_source_ids": [
+            "syn-e2",
+            "syn-e6",
+            "syn-e4",
+            "syn-e1",
+            "syn-e3",
+            "syn-e5"
+          ],
+          "queries": [
+            "Set up Celery and Redis background jobs"
+          ],
+          "abstained": false,
+          "latency_ms": 408.97,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q3",
+          "persona": "synthetic",
+          "job_type": "data",
+          "ranked_source_ids": [
+            "syn-e4",
+            "syn-e6",
+            "syn-e5",
+            "syn-e3",
+            "syn-e1",
+            "syn-e2"
+          ],
+          "queries": [
+            "Improve dbt SQL transformations and warehouse tests"
+          ],
+          "abstained": false,
+          "latency_ms": 208.14,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        },
+        {
+          "id": "syn-q4",
+          "persona": "synthetic",
+          "job_type": "search",
+          "ranked_source_ids": [
+            "syn-e5",
+            "syn-e3",
+            "syn-e1",
+            "syn-e4",
+            "syn-e2",
+            "syn-e6"
+          ],
+          "queries": [
+            "Build Pinecone semantic retrieval"
+          ],
+          "abstained": false,
+          "latency_ms": 105.17,
+          "metrics": {
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_10": 1.0
+          }
+        }
+      ]
+    }
+  },
+  "provenance": {
+    "dataset_label": "synthetic-smoke",
+    "corpus_sha256": "0cda53de6aab95b650072d97526e54d1cb96c82f85f3360f95211d4b08e61dcb",
+    "cases_sha256": "fd39988fe7ce4e036ebd1883f9ce932051f1af0a97b623e82ad3cdf8071dab7c",
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "reranker_model": null,
+    "note": "Retrieval metrics only; proposal quality and GigSim outcomes are not measured here."
+  }
+}

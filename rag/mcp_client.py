@@ -1,5 +1,6 @@
 """Portfolio retrieval through the MCP protocol for the development graph."""
 
+import os
 import sys
 
 from mcp import ClientSession, StdioServerParameters
@@ -18,7 +19,8 @@ async def search_evidence_mcp(job: JobSpec) -> list[Evidence]:
             await session.initialize()
             result = await session.call_tool(
                 "search_evidence",
-                {"requirement": " ".join(job.skills), "k": 20},
+                {"requirement": " ".join(job.skills), "requirements": job.skills,
+                 "variant": os.getenv("GIGBID_RAG_VARIANT", "keyword"), "k": 20},
             )
     if result.isError or not result.structuredContent:
         raise RuntimeError("Portfolio MCP search_evidence failed")

@@ -1,15 +1,20 @@
 """Typed client for the local mock Workspace MCP server."""
 
 import json
+import os
 import sys
 
 from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+from mcp.client.stdio import get_default_environment, stdio_client
 
 
 class DemoWorkspace:
     async def _call(self, name: str, arguments: dict):
-        server = StdioServerParameters(command=sys.executable, args=["-m", "mcp_servers.workspace.server"])
+        server = StdioServerParameters(
+            command=sys.executable,
+            args=["-m", "mcp_servers.workspace.server"],
+            env={**get_default_environment(), "GIGBID_WORKSPACE_DB": os.getenv("GIGBID_WORKSPACE_DB", "/tmp/gigbid_workspace.sqlite3")},
+        )
         async with stdio_client(server) as (read, write):
             async with ClientSession(read, write) as session:
                 await session.initialize()
