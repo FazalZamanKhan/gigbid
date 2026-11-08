@@ -35,6 +35,14 @@ These are **four easy synthetic queries over six hand-written chunks**, not the 
 
 The [raw synthetic result and provenance](evals/results/synthetic_retrieval.json) record the exact four cases. V3 and V4 await a cross-encoder model download. The required single-agent and supervisor baselines have not been run; their comparison remains open until the prescribed data and simulator are available.
 
+| Decision workflow | Synthetic approval path | Official decision and outcome comparison |
+| --- | --- | --- |
+| Current LangGraph branches | Bid approval, scam skip, injection skip checked | Pending GigSim data |
+| Single-agent baseline | Not implemented | Pending |
+| Supervisor baseline | Not implemented | Pending |
+
+Four [public synthetic development traces](docs/traces/) show an [approved proposal](docs/traces/proposal-approved.json), [scam skip](docs/traces/scam-skipped.json), [injected instruction skip](docs/traces/injection-skipped.json), and [approved interview reply](docs/traces/interview-reply-approved.json). They are exported LangGraph state snapshots from MCP-backed runs, not production spans with tokens and cost.
+
 ## Current development slice
 
 - A typed marketplace port has local direct and MCP-backed synthetic adapters. The GigSim adapter will be wired to the provided simulator's actual API after the starter kit arrives.
@@ -61,7 +69,7 @@ An optional single-origin hosting entry point is `apps.api.public:app`; `render.
 
 ## Assignment status
 
-See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) is live; no public application URL, official evaluation number, trace, demo video, or final report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
+See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) is live; no public application URL, official evaluation number, production trace, demo video, or final report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
 
 The [published technical write-up](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html) describes the current prototype and its limitations. The synthetic [Portfolio MCP development release](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio) has a documented `uvx` command and was installed from its public tag for an independent MCP protocol call.
 The [interim R&D PDF](output/pdf/GigBid_RD_Report_INTERIM.pdf) records verified engineering checks and explicitly leaves official evaluation results open. It is not the final report.

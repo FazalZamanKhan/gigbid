@@ -1,0 +1,80 @@
+{
+  "after_human_action": {
+    "next_nodes": [],
+    "state": {
+      "approval": {
+        "approved": true,
+        "text": "Thanks for your interest in Build a Python analytics dashboard. I can meet at 2026-11-10T09:00:00+00:00 or 2026-11-10T11:00:00+00:00. Please confirm which works for you."
+      },
+      "compliance": {
+        "allowed": true,
+        "reasons": []
+      },
+      "draft": {
+        "intent": "interview",
+        "slot_ids": [
+          "2026-11-10T09:00:00+00:00",
+          "2026-11-10T11:00:00+00:00"
+        ],
+        "text": "Thanks for your interest in Build a Python analytics dashboard. I can meet at 2026-11-10T09:00:00+00:00 or 2026-11-10T11:00:00+00:00. Please confirm which works for you."
+      },
+      "events": [
+        "Client Liaison loaded job context",
+        "Client Liaison classified interview",
+        "Workspace MCP returned interview slots",
+        "Client Liaison prepared synthetic reply",
+        "Compliance checked reply",
+        "Human approved reply",
+        "Approved synthetic message recorded"
+      ],
+      "intent": "interview",
+      "marketplace_result": {
+        "idempotency_key": "trace-interview-reply:approved-message",
+        "job_id": "demo-1",
+        "message_id": "message-trace-interview-reply:approved-message",
+        "synthetic": true,
+        "text": "Thanks for your interest in Build a Python analytics dashboard. I can meet at 2026-11-10T09:00:00+00:00 or 2026-11-10T11:00:00+00:00. Please confirm which works for you."
+      },
+      "risk_flags": [],
+      "slots": [
+        "2026-11-10T09:00:00+00:00",
+        "2026-11-10T11:00:00+00:00"
+      ]
+    }
+  },
+  "before_human_action": {
+    "next_nodes": [
+      "approval"
+    ],
+    "state": {
+      "compliance": {
+        "allowed": true,
+        "reasons": []
+      },
+      "draft": {
+        "intent": "interview",
+        "slot_ids": [
+          "2026-11-10T09:00:00+00:00",
+          "2026-11-10T11:00:00+00:00"
+        ],
+        "text": "Thanks for your interest in Build a Python analytics dashboard. I can meet at 2026-11-10T09:00:00+00:00 or 2026-11-10T11:00:00+00:00. Please confirm which works for you."
+      },
+      "events": [
+        "Client Liaison loaded job context",
+        "Client Liaison classified interview",
+        "Workspace MCP returned interview slots",
+        "Client Liaison prepared synthetic reply",
+        "Compliance checked reply"
+      ],
+      "intent": "interview",
+      "risk_flags": [],
+      "slots": [
+        "2026-11-10T09:00:00+00:00",
+        "2026-11-10T11:00:00+00:00"
+      ]
+    }
+  },
+  "job_id": "demo-1",
+  "path": "LangGraph with Marketplace and Workspace MCP stdio",
+  "scope": "synthetic-development"
+}

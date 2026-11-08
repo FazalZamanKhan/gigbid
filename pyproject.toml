@@ -30,6 +30,9 @@ rag = ["fastembed>=0.8,<1.0"]
 [tool.setuptools.packages.find]
 include = ["agent*", "apps*", "rag*", "mcp_servers*"]
 
+[tool.setuptools.package-data]
+agent = ["config.yaml"]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests", "mcp_servers"]

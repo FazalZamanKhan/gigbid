@@ -1,0 +1,159 @@
+{
+  "after_human_action": {
+    "next_nodes": [],
+    "state": {
+      "analysis": {
+        "requirements": [
+          "Python",
+          "Data analysis",
+          "Dashboard"
+        ],
+        "title": "Build a Python analytics dashboard"
+      },
+      "approval": {
+        "approved": true
+      },
+      "compliance": {
+        "allowed": true,
+        "reasons": []
+      },
+      "decision": {
+        "action": "bid",
+        "reason": "Evidence covers requirements and no high-risk flag was found"
+      },
+      "draft": {
+        "claims": [
+          {
+            "evidence_ids": [
+              "demo-e1"
+            ],
+            "supported": true,
+            "text": "My portfolio includes Python CSV analysis dashboard."
+          }
+        ],
+        "text": "Hello, I read your request for Build a Python analytics dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
+      },
+      "events": [
+        "Scout loaded job",
+        "Analyst extracted requirements",
+        "Risk assessor checked post",
+        "Fit matcher found cited evidence",
+        "Decision: bid",
+        "Price quote prepared",
+        "Writer prepared a cited demo draft",
+        "Compliance checked draft",
+        "Human approved draft",
+        "Approved marketplace draft created"
+      ],
+      "fit": {
+        "evidence": [
+          {
+            "id": "demo-e1",
+            "skills": [
+              "Python",
+              "Data analysis",
+              "Dashboard"
+            ],
+            "source": "synthetic-demo",
+            "text": "Synthetic example: cleaned CSV data in Python and created a dashboard.",
+            "title": "Python CSV analysis dashboard"
+          }
+        ],
+        "missing_skills": [],
+        "score": 1.0
+      },
+      "marketplace_result": {
+        "cost_connects": 8,
+        "draft_id": "draft-demo-1:approved-draft",
+        "idempotency_key": "demo-1:approved-draft",
+        "job_id": "demo-1",
+        "text": "Hello, I read your request for Build a Python analytics dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
+      },
+      "price": {
+        "amount": 450.0,
+        "currency": "USD",
+        "rationale": "Midpoint of the stated budget; no market pricing data yet"
+      },
+      "risk": {
+        "flags": [],
+        "injected_instruction": false,
+        "score": 0.0
+      }
+    }
+  },
+  "before_human_action": {
+    "next_nodes": [
+      "approval"
+    ],
+    "state": {
+      "analysis": {
+        "requirements": [
+          "Python",
+          "Data analysis",
+          "Dashboard"
+        ],
+        "title": "Build a Python analytics dashboard"
+      },
+      "compliance": {
+        "allowed": true,
+        "reasons": []
+      },
+      "decision": {
+        "action": "bid",
+        "reason": "Evidence covers requirements and no high-risk flag was found"
+      },
+      "draft": {
+        "claims": [
+          {
+            "evidence_ids": [
+              "demo-e1"
+            ],
+            "supported": true,
+            "text": "My portfolio includes Python CSV analysis dashboard."
+          }
+        ],
+        "text": "Hello, I read your request for Build a Python analytics dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
+      },
+      "events": [
+        "Scout loaded job",
+        "Analyst extracted requirements",
+        "Risk assessor checked post",
+        "Fit matcher found cited evidence",
+        "Decision: bid",
+        "Price quote prepared",
+        "Writer prepared a cited demo draft",
+        "Compliance checked draft"
+      ],
+      "fit": {
+        "evidence": [
+          {
+            "id": "demo-e1",
+            "skills": [
+              "Python",
+              "Data analysis",
+              "Dashboard"
+            ],
+            "source": "synthetic-demo",
+            "text": "Synthetic example: cleaned CSV data in Python and created a dashboard.",
+            "title": "Python CSV analysis dashboard"
+          }
+        ],
+        "missing_skills": [],
+        "score": 1.0
+      },
+      "price": {
+        "amount": 450.0,
+        "currency": "USD",
+        "rationale": "Midpoint of the stated budget; no market pricing data yet"
+      },
+      "risk": {
+        "flags": [],
+        "injected_instruction": false,
+        "score": 0.0
+      }
+    }
+  },
+  "job_id": "demo-1",
+  "path": "LangGraph with Portfolio and Marketplace MCP stdio",
+  "scope": "synthetic-development"
+}

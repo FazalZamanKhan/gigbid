@@ -1,0 +1,52 @@
+{
+  "before_human_action": {
+    "next_nodes": [],
+    "state": {
+      "analysis": {
+        "requirements": [
+          "Python",
+          "Dashboard"
+        ],
+        "title": "Build a Python analytics dashboard"
+      },
+      "decision": {
+        "action": "skip",
+        "reason": "Job post contains an instruction aimed at the assistant"
+      },
+      "events": [
+        "Scout loaded job",
+        "Analyst extracted requirements",
+        "Risk assessor checked post",
+        "Fit matcher found cited evidence",
+        "Decision: skip"
+      ],
+      "fit": {
+        "evidence": [
+          {
+            "id": "demo-e1",
+            "skills": [
+              "Python",
+              "Data analysis",
+              "Dashboard"
+            ],
+            "source": "synthetic-demo",
+            "text": "Synthetic example: cleaned CSV data in Python and created a dashboard.",
+            "title": "Python CSV analysis dashboard"
+          }
+        ],
+        "missing_skills": [],
+        "score": 1.0
+      },
+      "risk": {
+        "flags": [
+          "ignore previous instructions"
+        ],
+        "injected_instruction": true,
+        "score": 0.35
+      }
+    }
+  },
+  "job_id": "demo-3",
+  "path": "LangGraph with Portfolio and Marketplace MCP stdio",
+  "scope": "synthetic-development"
+}
