@@ -13,3 +13,5 @@ data/processed/
 *.tsbuildinfo
 tmp/
 output/zip/
+apps/web/playwright-report/
+apps/web/test-results/
