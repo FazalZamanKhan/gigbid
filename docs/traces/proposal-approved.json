@@ -72,8 +72,8 @@
       },
       "marketplace_result": {
         "cost_connects": 8,
-        "draft_id": "draft-demo-1:approved-draft",
-        "idempotency_key": "demo-1:approved-draft",
+        "draft_id": "draft-trace-proposal-approved:approved-draft",
+        "idempotency_key": "trace-proposal-approved:approved-draft",
         "job_id": "demo-1",
         "text": "For your Build a Python analytics dashboard project, I can apply the work shown in Python CSV analysis dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
       },

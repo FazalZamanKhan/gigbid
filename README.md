@@ -1,5 +1,7 @@
 # GigBid
 
+![30-second GigBid synthetic workflow preview](docs/assets/gigbid-demo.gif)
+
 GigBid is an **in-progress** AI-4016 Assignment II project. The instructor supplied an example scaffold on 12 November 2026, but it contains no working GigSim service, personas, or evaluation data. The current web workflow uses clearly labeled synthetic jobs and a deterministic draft. A separate, attributed 2024 Kaggle dataset supplies descriptive budget aggregates, not client outcomes or evaluation labels. This is **not** a completed GigSim submission or measured marketplace result.
 
 [![GigBid CI](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml/badge.svg)](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml)
@@ -24,16 +26,18 @@ flowchart LR
 
 ## Development measurements
 
-These are **four easy synthetic queries over six hand-written chunks**, not the assignment's official retrieval results. All variants tied, so no production retriever has been selected.
+These are **four easy synthetic queries over six hand-written chunks**, not the assignment's official retrieval results. All six variants tied in the latest warm-cache run, so no production retriever has been selected. The corpus has no outcome scores, so V4 does not test outcome-aware ranking here.
 
 | Retrieval path | Recall@5 | p95 query latency |
 | --- | ---: | ---: |
-| V0 dense | 1.00 | 174 ms |
-| V1 decomposition | 1.00 | 707 ms |
-| V2 BM25 + dense fusion | 1.00 | 320 ms |
-| V8 corrective graph | 1.00 | 409 ms |
+| V0 dense | 1.00 | 16 ms |
+| V1 decomposition | 1.00 | 47 ms |
+| V2 BM25 + dense fusion | 1.00 | 29 ms |
+| V3 cross encoder | 1.00 | 296 ms |
+| V4 outcome-aware rerank (no outcome values in fixture) | 1.00 | 336 ms |
+| V8 corrective graph | 1.00 | 54 ms |
 
-The [raw synthetic result and provenance](evals/results/synthetic_retrieval.json) record the exact four cases. V3 and V4 await a cross-encoder model download. The required single-agent and supervisor baselines have not been run; their comparison remains open until the prescribed data and simulator are available.
+The [raw six-variant synthetic result and provenance](evals/results/synthetic_retrieval_full.json) record the exact four cases. Earlier cold/warm runs differed in latency; these timings are local development observations, not a deployment target. The required single-agent and supervisor baselines have not been run; their comparison remains open until the prescribed data and simulator are available.
 
 | Decision workflow | Synthetic approval path | Official decision and outcome comparison |
 | --- | --- | --- |
@@ -50,7 +54,7 @@ Four [public synthetic development traces](docs/traces/) show an [approved propo
 - A second LangGraph workflow classifies synthetic client replies, asks the Workspace MCP mock for interview slots, and pauses for approval before recording a synthetic message.
 - A FastAPI API exposes jobs, bid and conversation runs, approvals, and health. The React UI displays the inbox, proposal review, message review, and a browser-local synthetic reviewer setup. It restores the last runs after a page reload when their checkpoints are available.
 - Portfolio MCP provides read-only evidence tools and resource templates. A separate development Marketplace MCP server exposes synthetic job reads, a guarded draft tool, and a guarded message tool. The Workspace MCP server provides a local mock calendar and email draft store.
-- A separate [retrieval experiment harness](docs/RAG_EVAL.md) runs V0, V1, V2, V3, V4 and a V8 LangGraph corrective path on caller-supplied labeled data. Only a four-query synthetic smoke run is available so far; it cannot select a production variant.
+- A separate [retrieval experiment harness](docs/RAG_EVAL.md) runs V0, V1, V2, V3, V4 and a V8 LangGraph corrective path on caller-supplied labeled data. All six variants were run with open embedding and reranking models on a four-query synthetic smoke fixture; it cannot select a production variant.
 - An [attributed data card](docs/DATA_CARD.md) and reproducible script derive fixed-price budget aggregates from the instructor-permitted 2024 Kaggle job postings dataset. No raw historical job text is committed or presented as current marketplace work.
 - Seven Playwright end-to-end tests cover demo setup, approval, rejection, edited-draft hold, outage messaging, scam/injection skip, and client reply approval.
 
@@ -74,4 +78,5 @@ An optional single-origin hosting entry point is `apps.api.public:app`; `render.
 See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) is live; no public application URL, official evaluation number, production trace, demo video, or final report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
 
 The [published technical write-up](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html) describes the current prototype and its limitations. The synthetic [Portfolio MCP development release](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio) has a documented `uvx` command and was installed from its public tag for an independent MCP protocol call.
+The [three-minute captioned demo](https://fazalzamankhan.github.io/gigbid/DEMO.html) records the synthetic approval workflow, including the Critic revision, a client reply, and scam/injection skips. It has no audio or real marketplace action.
 The [R&D PDF](output/pdf/GigBid_RD_Report.pdf) records verified engineering checks, attributed historical budget analysis, and explicit missing simulator results. It should be updated if the official GigSim assets or further measurements arrive before submission.

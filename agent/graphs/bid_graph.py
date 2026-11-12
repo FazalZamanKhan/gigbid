@@ -24,6 +24,7 @@ from rag.verify import verify_claims
 
 
 class BidState(TypedDict, total=False):
+    run_id: str
     job_id: str
     job: dict
     analysis: dict
@@ -139,9 +140,10 @@ def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
         return "approval" if state["compliance"]["allowed"] else END
 
     async def approval(state: BidState) -> BidState:
+        operation = state.get("run_id", state["job_id"])
         preview = await marketplace.create_proposal_draft(
             state["job_id"], state["draft"]["text"],
-            f"{state['job_id']}:preview", dry_run=True,
+            f"{operation}:preview", dry_run=True,
         )
         response = interrupt({
             "job": state["job"], "risk": state["risk"], "fit": state["fit"],
@@ -158,9 +160,10 @@ def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
         return "create_draft" if state["approval"]["approved"] else END
 
     async def create_draft(state: BidState) -> BidState:
+        operation = state.get("run_id", state["job_id"])
         result = await marketplace.create_proposal_draft(
             state["job_id"], state["draft"]["text"],
-            f"{state['job_id']}:approved-draft", dry_run=False,
+            f"{operation}:approved-draft", dry_run=False,
         )
         return {"marketplace_result": result, "events": ["Approved marketplace draft created"]}
 

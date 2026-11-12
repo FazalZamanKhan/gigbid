@@ -118,7 +118,7 @@ async def run_job(job_id: str):
         raise HTTPException(404, "Job not found")
     run_id = str(uuid4())
     config = {"configurable": {"thread_id": run_id}}
-    await graph.ainvoke({"job_id": job_id, "events": []}, config)
+    await graph.ainvoke({"run_id": run_id, "job_id": job_id, "events": []}, config)
     return _view(run_id, await graph.aget_state(config))
 
 

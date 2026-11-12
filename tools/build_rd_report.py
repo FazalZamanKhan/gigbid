@@ -15,7 +15,7 @@ from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "output/pdf/GigBid_RD_Report.pdf"
 MARKET = json.loads((ROOT / "data/derived/kaggle_market_priors.json").read_text())
-RETRIEVAL = json.loads((ROOT / "evals/results/synthetic_retrieval.json").read_text())
+RETRIEVAL = json.loads((ROOT / "evals/results/synthetic_retrieval_full.json").read_text())
 
 navy = colors.HexColor("#15263c")
 blue = colors.HexColor("#1d526c")
@@ -99,13 +99,13 @@ story += [PageBreak()]
 
 story += [p("3. Measured results and interpretation", "HeadingX")]
 story += [p("<b>Engineering tests.</b> On 12 November, 16 Python tests and seven Playwright end-to-end tests passed locally; TypeScript/Vite production build passed. GitHub CI passed for commit bba9749, including Python, web, browser, and hosted-image jobs. Browser tests cover local demo setup persistence, approve, reject with reason, edited-draft hold, marketplace outage banner, scam/injection skip, and approved synthetic client reply. These are workflow checks, not a statistical quality estimate.")]
-story += [p("<b>Retrieval smoke.</b> A BGE small English embedding model ran on four hand-written queries over six synthetic chunks. All four variants below returned every relevant item. The fixture is too easy to select a deployed design; V3/V4 reranker measurements are absent from this result. Query timings exclude initial index build but include Python overhead and vary with local CPU conditions.")]
+story += [p("<b>Retrieval smoke.</b> A BGE small English embedding model and Xenova MiniLM cross encoder ran on four hand-written queries over six synthetic chunks. All six variants below returned every relevant item. The fixture is too easy to select a deployed design. V4 had no outcome scores in this corpus, so it does not test the outcome boost. Query timings exclude model download and index build, but include Python overhead and vary with local CPU conditions.")]
 rows = [["Variant", "Recall@5", "MRR", "nDCG@10", "p95 query ms"]]
-for key, label in (("v0", "V0 dense"), ("v1", "V1 decomposition"), ("v2", "V2 hybrid"), ("v8", "V8 corrective")):
+for key, label in (("v0", "V0 dense"), ("v1", "V1 decomposition"), ("v2", "V2 hybrid"), ("v3", "V3 reranked"), ("v4", "V4 outcome-aware*"), ("v8", "V8 corrective")):
     result = RETRIEVAL["variants"][key]["aggregate"]
     rows.append([label, f"{result['recall_at_5']:.2f}", f"{result['mrr']:.2f}", f"{result['ndcg_at_10']:.2f}", f"{result['p95_latency_ms']:.0f}"])
 story += [tbl(rows, [1.85 * inch, 1.05 * inch, .8 * inch, 1.15 * inch, 1.9 * inch])]
-story += [p("The perfect tie rejects a tempting but unsupported conclusion that advanced retrieval improved relevance. The application still uses a transparent keyword search over its two demo portfolio records. The V0/V1/V2/V3/V4/V8 harness is implemented, but a larger independently labeled set and full reranker run are needed before choosing a production variant.")]
+story += [p("*No outcome values were available, so V4 differs from V3 only in code path. The perfect tie rejects a tempting but unsupported conclusion that advanced retrieval improved relevance. The application still uses a transparent keyword search over two demo portfolio records. A larger independently labeled set is needed before choosing a production variant.")]
 story += [p("<b>Tool design and agent comparisons.</b> The prescribed 40-task MCP tool-granularity study and 50-job single-agent/supervisor/hand-built graph comparison were not run. No selection accuracy, argument accuracy, token cost, judge calibration, GigSim reply/hire rate, official bid F1, or per-proposal p95/cost is reported. The example kit and Kaggle data do not contain the required outcome labels.")]
 story += [PageBreak()]
 
@@ -121,7 +121,7 @@ story += [tbl(market_rows, [2 * inch, 1 * inch, 1.25 * inch, 1.25 * inch, 1.25 *
 story += [p("The source dates to 2024. Titles can be ambiguous; missing budgets and the USD range filter can bias medians. Fixed projects differ greatly in scope, and historical posted budgets do not tell us what freelancers charged or whether clients replied. The script publishes no raw descriptions, URLs, names, or private data. The data card records the source URL, ODC-By license, exact SHA-256 of the downloaded ZIP, filters, and derived JSON.")]
 story += [p("5. Research decision and remaining work", "HeadingX")]
 story += [p("The evidence supports a narrow engineering conclusion: the synthetic approval path prevents the demonstrated unapproved writes, and the MCP/graph interfaces execute end to end. It does <b>not</b> establish improved proposal quality or marketplace outcomes. The next required study needs an actual GigSim contract and labeled personas, a harder retrieval set, model-backed Writer/Critic and calibrated judging, a controlled agent baseline, production traces with latency/cost, and a forced external-write crash test. The final deployed preview also needs public URL, reviewer login, video, and long-lived hosting verification.")]
-story += [p("<b>Reproduce.</b> Run <font face='Courier'>PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q</font>, <font face='Courier'>cd apps/web &amp;&amp; npm run test:e2e</font>, and <font face='Courier'>python tools/build_market_priors.py PATH_TO_KAGGLE_ZIP</font>. Exact retrieval input hashes and model ID are in <font face='Courier'>evals/results/synthetic_retrieval.json</font>. Source and methods: <link href='https://github.com/FazalZamanKhan/gigbid'>github.com/FazalZamanKhan/gigbid</link>; Kaggle source: <link href='https://www.kaggle.com/datasets/asaniczka/upwork-job-postings-dataset-2024-50k-records'>asaniczka, Upwork Job Postings Dataset 2024</link>; assignment brief: AI-4016 Assignment II PDF and later Classroom update.", "SmallX")]
+story += [p("<b>Reproduce.</b> Run <font face='Courier'>PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -q</font>, <font face='Courier'>cd apps/web &amp;&amp; npm run test:e2e</font>, and <font face='Courier'>python tools/build_market_priors.py PATH_TO_KAGGLE_ZIP</font>. Exact retrieval input hashes and model IDs are in <font face='Courier'>evals/results/synthetic_retrieval_full.json</font>. Source and methods: <link href='https://github.com/FazalZamanKhan/gigbid'>github.com/FazalZamanKhan/gigbid</link>; Kaggle source: <link href='https://www.kaggle.com/datasets/asaniczka/upwork-job-postings-dataset-2024-50k-records'>asaniczka, Upwork Job Postings Dataset 2024</link>; assignment brief: AI-4016 Assignment II PDF and later Classroom update.", "SmallX")]
 
 OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 doc = SimpleDocTemplate(str(OUTPUT), pagesize=(8.5 * inch, 11 * inch), leftMargin=.7 * inch,

@@ -54,16 +54,26 @@ class DemoMarketplace:
     async def create_proposal_draft(
         self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
     ) -> dict:
+        if not idempotency_key or not text.strip():
+            return {"error": "invalid_draft"}
         preview = {"job_id": job_id, "text": text, "idempotency_key": idempotency_key, "cost_connects": (await self.get_job(job_id)).connects_cost}
         if dry_run:
             return {**preview, "dry_run": True}
+        existing = self.drafts.get(idempotency_key)
+        if existing and (existing["job_id"], existing["text"]) != (job_id, text):
+            return {"error": "idempotency_conflict", "draft_id": existing["draft_id"]}
         return self.drafts.setdefault(idempotency_key, {**preview, "draft_id": f"draft-{idempotency_key}"})
 
     async def send_message(
         self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
     ) -> dict:
+        if not idempotency_key or not text.strip():
+            return {"error": "invalid_message"}
         await self.get_job(job_id)
         preview = {"job_id": job_id, "text": text, "idempotency_key": idempotency_key, "synthetic": True}
         if dry_run:
             return {**preview, "dry_run": True}
+        existing = self.messages.get(idempotency_key)
+        if existing and (existing["job_id"], existing["text"]) != (job_id, text):
+            return {"error": "idempotency_conflict", "message_id": existing["message_id"]}
         return self.messages.setdefault(idempotency_key, {**preview, "message_id": f"message-{idempotency_key}"})

@@ -35,7 +35,7 @@ def state_view(snapshot) -> dict:
 async def bid(name: str, job_id: str, approve: bool = False) -> None:
     graph = build_bid_graph(DemoMCPMarketplace())
     config = {"configurable": {"thread_id": f"trace-{name}"}}
-    await graph.ainvoke({"job_id": job_id, "events": []}, config)
+    await graph.ainvoke({"run_id": f"trace-{name}", "job_id": job_id, "events": []}, config)
     before = state_view(await graph.aget_state(config))
     result = {"scope": "synthetic-development", "path": "LangGraph with Portfolio and Marketplace MCP stdio", "job_id": job_id, "before_human_action": before}
     if approve:

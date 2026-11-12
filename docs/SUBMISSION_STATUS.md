@@ -12,11 +12,11 @@ The [Google Classroom assignment](https://classroom.google.com/c/ODE5OTY5MDAxMDQ
 | Published Portfolio MCP | [Public `portfolio-v0.1.0` tag](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio); installation and an MCP call were verified. |
 | Technical write-up | [Published GitHub Pages article](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html), with an updated source pending publication. |
 | R&D report PDF | [Four-page evidence-limited report](../output/pdf/GigBid_RD_Report.pdf) prepared and visually checked; update it if further experiments are completed. It openly reports missing GigSim results. |
-| Three-minute video | Pending recording and public viewable link. |
+| Three-minute video | A 3:02 captioned, silent synthetic workflow recording is prepared; [GitHub Pages viewing link](https://fazalzamankhan.github.io/gigbid/DEMO.html) pending live publication check. |
 | ZIP | Regenerate from final committed source if Classroom requests one. |
 
 ## Rubric risks
 
 The prototype has no official GigSim integration or simulator outcome measurements. It also lacks a real model-backed Writer and Critic, larger labeled retrieval and agent comparisons, persistent long-term memory, a scheduled worker, full tracing and cost accounting, multi-user authentication, complete required screens, and a fully verified container stack. These missing elements are material for the 100-mark rubric. The example scaffold and Kaggle dataset do not supply the missing GigSim contract or gold outcome labels. No report or README should invent them.
 
-The four-query synthetic retrieval smoke test tied V0/V1/V2/V8 at Recall@5=1.0; this fixture cannot select a production RAG variant. Four public JSON files in `docs/traces/` are synthetic LangGraph state snapshots, not production spans. The last verified Postgres restart test covered a bid, not an external-write crash. A live Render URL may use free Postgres, which expires after 30 days and needs maintenance or migration until grades are released.
+The four-query synthetic retrieval smoke test tied V0/V1/V2/V3/V4/V8 at Recall@5=1.0; this fixture cannot select a production RAG variant, and V4 had no outcome scores to use. Four public JSON files in `docs/traces/` are synthetic LangGraph state snapshots, not production spans. The last verified Postgres restart test covered a bid, not an external-write crash. A live Render URL may use free Postgres, which expires after 30 days and needs maintenance or migration until grades are released.
