@@ -1,5 +1,9 @@
 """Synthetic local adapter for development only; never used as R&D evidence."""
 
+import json
+from pathlib import Path
+import sqlite3
+
 from agent.handoffs import JobSpec
 
 
@@ -77,3 +81,62 @@ class DemoMarketplace:
         if existing and (existing["job_id"], existing["text"]) != (job_id, text):
             return {"error": "idempotency_conflict", "message_id": existing["message_id"]}
         return self.messages.setdefault(idempotency_key, {**preview, "message_id": f"message-{idempotency_key}"})
+
+
+class SQLiteDemoMarketplace(DemoMarketplace):
+    """Share synthetic write receipts across short-lived stdio MCP processes.
+
+    This is a development adapter. It records no real marketplace action and does
+    not substitute for GigSim's proposal or message API.
+    """
+
+    def __init__(self, path: str):
+        super().__init__()
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        with sqlite3.connect(self.path) as connection:
+            connection.execute(
+                "CREATE TABLE IF NOT EXISTS writes ("
+                "kind TEXT NOT NULL, idempotency_key TEXT NOT NULL, "
+                "job_id TEXT NOT NULL, text TEXT NOT NULL, response_json TEXT NOT NULL, "
+                "PRIMARY KEY (kind, idempotency_key))"
+            )
+
+    def _record(self, kind: str, job_id: str, text: str, idempotency_key: str, response: dict) -> dict:
+        with sqlite3.connect(self.path, timeout=10) as connection:
+            connection.execute(
+                "INSERT OR IGNORE INTO writes VALUES (?, ?, ?, ?, ?)",
+                (kind, idempotency_key, job_id, text, json.dumps(response)),
+            )
+            stored_job_id, stored_text, stored_response = connection.execute(
+                "SELECT job_id, text, response_json FROM writes "
+                "WHERE kind = ? AND idempotency_key = ?",
+                (kind, idempotency_key),
+            ).fetchone()
+        stored = json.loads(stored_response)
+        if (stored_job_id, stored_text) != (job_id, text):
+            receipt_key = "draft_id" if kind == "proposal" else "message_id"
+            return {"error": "idempotency_conflict", receipt_key: stored[receipt_key]}
+        return stored
+
+    async def create_proposal_draft(
+        self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
+    ) -> dict:
+        preview = await super().create_proposal_draft(job_id, text, idempotency_key, dry_run=True)
+        if dry_run or "error" in preview:
+            return preview
+        return self._record(
+            "proposal", job_id, text, idempotency_key,
+            {**{key: value for key, value in preview.items() if key != "dry_run"}, "draft_id": f"draft-{idempotency_key}"},
+        )
+
+    async def send_message(
+        self, job_id: str, text: str, idempotency_key: str, dry_run: bool = False
+    ) -> dict:
+        preview = await super().send_message(job_id, text, idempotency_key, dry_run=True)
+        if dry_run or "error" in preview:
+            return preview
+        return self._record(
+            "message", job_id, text, idempotency_key,
+            {**{key: value for key, value in preview.items() if key != "dry_run"}, "message_id": f"message-{idempotency_key}"},
+        )

@@ -1,13 +1,15 @@
 """Synthetic Marketplace MCP server for development, not a GigSim substitute."""
 
+import os
+
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 
-from mcp_servers.marketplace.adapters.demo import DemoMarketplace
+from mcp_servers.marketplace.adapters.demo import SQLiteDemoMarketplace
 
 
 mcp = FastMCP("GigBid Development Marketplace")
-marketplace = DemoMarketplace()
+marketplace = SQLiteDemoMarketplace(os.getenv("GIGBID_DEMO_STORE", "/tmp/gigbid-marketplace.sqlite3"))
 
 
 @mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
