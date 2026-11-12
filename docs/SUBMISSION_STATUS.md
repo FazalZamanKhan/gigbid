@@ -11,7 +11,7 @@ The [Google Classroom assignment](https://classroom.google.com/c/ODE5OTY5MDAxMDQ
 | Deployed app and private reviewer login | Pending Render sign-in, deployment, and live verification. Credentials must go in a private Classroom comment only. |
 | Published Portfolio MCP | [Public `portfolio-v0.1.0` tag](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio); installation and an MCP call were verified. |
 | Technical write-up | [Published GitHub Pages article](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html), with an updated source pending publication. |
-| R&D report PDF | Four-page **interim** document exists; a final honest measured report is still pending. |
+| R&D report PDF | [Four-page evidence-limited report](../output/pdf/GigBid_RD_Report.pdf) prepared and visually checked; update it if further experiments are completed. It openly reports missing GigSim results. |
 | Three-minute video | Pending recording and public viewable link. |
 | ZIP | Regenerate from final committed source if Classroom requests one. |
 
