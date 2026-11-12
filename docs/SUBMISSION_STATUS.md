@@ -5,14 +5,14 @@ The [Google Classroom assignment](https://classroom.google.com/c/ODE5OTY5MDAxMDQ
 | Deliverable | Verified status |
 | --- | --- |
 | Instructor starter example | Received 12 November. It is a 20 KB scaffold with tiny synthetic examples and placeholders; no working GigSim, personas, or evaluation set. |
-| Public source | [Repository](https://github.com/FazalZamanKhan/gigbid) and commit `bba9749` pushed 12 November; the GitHub CI for this commit passed. Final code commit still pending. |
+| Public source | [Repository](https://github.com/FazalZamanKhan/gigbid) and commit `5e876b0` pushed 12 November; GitHub CI passed. Further code may follow before final submission. |
 | Local app | Synthetic bid and conversation approval paths; React build, 16 Python tests and 7 Playwright tests passed locally on 12 November. Docker currently stopped. |
 | Data | [Attributed 2024 Kaggle source](DATA_CARD.md) yielded 14,620 fixed-price posts after filtering, used for descriptive budget aggregates only. Synthetic development data is separately labeled. |
 | Deployed app and private reviewer login | Pending Render sign-in, deployment, and live verification. Credentials must go in a private Classroom comment only. |
 | Published Portfolio MCP | [Public `portfolio-v0.1.0` tag](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio); installation and an MCP call were verified. |
-| Technical write-up | [Published GitHub Pages article](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html), with an updated source pending publication. |
+| Technical write-up | [Published GitHub Pages article](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html), verified HTTP 200. |
 | R&D report PDF | [Four-page evidence-limited report](../output/pdf/GigBid_RD_Report.pdf) prepared and visually checked; update it if further experiments are completed. It openly reports missing GigSim results. |
-| Three-minute video | A 3:02 captioned, silent synthetic workflow recording is prepared; [GitHub Pages viewing link](https://fazalzamankhan.github.io/gigbid/DEMO.html) pending live publication check. |
+| Three-minute video | [Public viewing page](https://fazalzamankhan.github.io/gigbid/DEMO.html) verified HTTP 200 and its 3:02 MP4 returned a byte-range response. Captioned and silent; synthetic workflow only. |
 | ZIP | Regenerate from final committed source if Classroom requests one. |
 
 ## Rubric risks

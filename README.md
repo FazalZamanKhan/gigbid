@@ -75,7 +75,7 @@ An optional single-origin hosting entry point is `apps.api.public:app`; `render.
 
 ## Assignment status
 
-See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) is live; no public application URL, official evaluation number, production trace, demo video, or final report is claimed until verified. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
+See [docs/SUBMISSION_STATUS.md](docs/SUBMISSION_STATUS.md) for the rubric audit. The [public source repository](https://github.com/FazalZamanKhan/gigbid) contains the demo and evidence-limited report. The public application URL and official GigSim evaluation numbers remain pending. Reviewer credentials must be supplied in a private Google Classroom comment, never in the public repository.
 
 The [published technical write-up](https://fazalzamankhan.github.io/gigbid/TECHNICAL_WRITEUP.html) describes the current prototype and its limitations. The synthetic [Portfolio MCP development release](https://github.com/FazalZamanKhan/gigbid/tree/portfolio-v0.1.0/mcp_servers/portfolio) has a documented `uvx` command and was installed from its public tag for an independent MCP protocol call.
 The [three-minute captioned demo](https://fazalzamankhan.github.io/gigbid/DEMO.html) records the synthetic approval workflow, including the Critic revision, a client reply, and scam/injection skips. It has no audio or real marketplace action.
