@@ -13,6 +13,10 @@ def test_bid_waits_for_human_and_rejection_does_not_write():
         await graph.ainvoke({"job_id": "demo-1", "events": []}, config)
         snapshot = await graph.aget_state(config)
         assert "approval" in snapshot.next
+        assert snapshot.values["critique"]["accepted"] is True
+        assert snapshot.values["critique"]["revision"] == 1
+        assert not snapshot.values["draft"]["text"].startswith("Hello, I read your request")
+        assert any("Critic requested revision 1" in event for event in snapshot.values["events"])
         assert marketplace.drafts == {}
         await graph.ainvoke(Command(resume={"approved": False, "reason": "No bid"}), config)
         assert marketplace.drafts == {}

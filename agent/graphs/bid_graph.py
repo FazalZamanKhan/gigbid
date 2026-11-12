@@ -14,7 +14,7 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.types import Send, interrupt
 
 from agent.handoffs import (
-    BidDecision, Claim, ComplianceVerdict, Decision, Evidence, FitReport,
+    BidDecision, Claim, ComplianceVerdict, Critique, Decision, Evidence, FitReport,
     JobSpec, PriceQuote, ProposalDraft, RiskReport,
 )
 from agent.marketplace_port import MarketplacePort
@@ -32,6 +32,7 @@ class BidState(TypedDict, total=False):
     decision: dict
     price: dict
     draft: dict
+    critique: dict
     compliance: dict
     approval: dict
     marketplace_result: dict
@@ -39,7 +40,9 @@ class BidState(TypedDict, total=False):
 
 
 def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
-    policy = load_config()["decision"]
+    config = load_config()
+    policy = config["decision"]
+    max_revisions = config["budgets"]["max_critic_revisions"]
 
     async def scout(state: BidState) -> BidState:
         job = await marketplace.get_job(state["job_id"])
@@ -98,9 +101,30 @@ def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
         fit = FitReport.model_validate(state["fit"])
         cited = fit.evidence[0]
         claim_text = f"My portfolio includes {cited.title}."
-        text = f"Hello, I read your request for {job.title}. {claim_text} I would confirm the scope with you before starting."
+        if state.get("critique", {}).get("revision", 0):
+            text = f"For your {job.title} project, I can apply the work shown in {cited.title}. {claim_text} I would confirm the scope with you before starting."
+        else:
+            text = f"Hello, I read your request for {job.title}. {claim_text} I would confirm the scope with you before starting."
         draft = ProposalDraft(text=text, claims=[Claim(text=claim_text, evidence_ids=[cited.id])])
-        return {"draft": verify_claims(draft, fit.evidence).model_dump(), "events": ["Writer prepared a cited demo draft"]}
+        revision = state.get("critique", {}).get("revision", 0)
+        return {"draft": verify_claims(draft, fit.evidence).model_dump(), "events": [f"Writer prepared cited demo draft, revision {revision}"]}
+
+    def critic(state: BidState) -> BidState:
+        draft = ProposalDraft.model_validate(state["draft"])
+        issues = []
+        if draft.text.startswith("Hello, I read your request"):
+            issues.append("Opening repeats the job title without a specific plan")
+        if any(not claim.supported for claim in draft.claims):
+            issues.append("A proposal claim lacks evidence")
+        revision = state.get("critique", {}).get("revision", 0)
+        critique = Critique(accepted=not issues, issues=issues, revision=revision + (1 if issues else 0))
+        return {"critique": critique.model_dump(), "events": ["Critic accepted draft" if not issues else f"Critic requested revision {critique.revision}: {'; '.join(issues)}"]}
+
+    def after_critic(state: BidState):
+        critique = Critique.model_validate(state["critique"])
+        if critique.accepted:
+            return "compliance"
+        return "writer" if critique.revision <= max_revisions else END
 
     def compliance(state: BidState) -> BidState:
         draft = ProposalDraft.model_validate(state["draft"])
@@ -144,7 +168,7 @@ def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
     for name, node in (
         ("scout", scout), ("analyst", analyst), ("risk_assessor", risk_assessor),
         ("fit_matcher", fit_matcher), ("decide", decide), ("price", price),
-        ("writer", writer), ("compliance", compliance), ("approval", approval),
+        ("writer", writer), ("critic", critic), ("compliance", compliance), ("approval", approval),
         ("create_draft", create_draft),
     ):
         graph.add_node(name, node)
@@ -153,7 +177,8 @@ def build_bid_graph(marketplace: MarketplacePort, checkpointer=None):
     graph.add_edge(["analyst", "risk_assessor", "fit_matcher"], "decide")
     graph.add_conditional_edges("decide", after_decide)
     graph.add_edge("price", "writer")
-    graph.add_edge("writer", "compliance")
+    graph.add_edge("writer", "critic")
+    graph.add_conditional_edges("critic", after_critic)
     graph.add_conditional_edges("compliance", after_compliance)
     graph.add_conditional_edges("approval", after_approval)
     graph.add_edge("create_draft", END)

@@ -46,7 +46,7 @@ Four [public synthetic development traces](docs/traces/) show an [approved propo
 ## Current development slice
 
 - A typed marketplace port has local direct and MCP-backed synthetic adapters. The example starter ZIP has no GigSim contract or service to integrate; a future adapter requires the actual simulator API.
-- The bid graph analyses a job, retrieves synthetic portfolio evidence through an MCP session, checks the cited draft, and pauses for human approval before any marketplace write.
+- The bid graph analyses a job, retrieves synthetic portfolio evidence through an MCP session, checks the cited draft, runs a bounded rule-based Critic revision loop, and pauses for human approval before any marketplace write.
 - A second LangGraph workflow classifies synthetic client replies, asks the Workspace MCP mock for interview slots, and pauses for approval before recording a synthetic message.
 - A FastAPI API exposes jobs, bid and conversation runs, approvals, and health. The React UI displays the inbox, proposal review, message review, and a browser-local synthetic reviewer setup. It restores the last runs after a page reload when their checkpoints are available.
 - Portfolio MCP provides read-only evidence tools and resource templates. A separate development Marketplace MCP server exposes synthetic job reads, a guarded draft tool, and a guarded message tool. The Workspace MCP server provides a local mock calendar and email draft store.

@@ -28,7 +28,7 @@ def save(name: str, payload: dict) -> None:
 
 
 def state_view(snapshot) -> dict:
-    fields = ("events", "analysis", "risk", "fit", "decision", "price", "draft", "compliance", "intent", "risk_flags", "slots", "approval", "marketplace_result")
+    fields = ("events", "analysis", "risk", "fit", "decision", "price", "draft", "critique", "compliance", "intent", "risk_flags", "slots", "approval", "marketplace_result")
     return {"next_nodes": list(snapshot.next), "state": {key: snapshot.values[key] for key in fields if key in snapshot.values}}
 
 

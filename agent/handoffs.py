@@ -64,6 +64,12 @@ class ProposalDraft(BaseModel):
     claims: list[Claim]
 
 
+class Critique(BaseModel):
+    accepted: bool
+    issues: list[str] = Field(default_factory=list)
+    revision: int = Field(ge=0)
+
+
 class ComplianceVerdict(BaseModel):
     allowed: bool
     reasons: list[str] = Field(default_factory=list)

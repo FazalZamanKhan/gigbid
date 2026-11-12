@@ -17,6 +17,11 @@
         "allowed": true,
         "reasons": []
       },
+      "critique": {
+        "accepted": true,
+        "issues": [],
+        "revision": 1
+      },
       "decision": {
         "action": "bid",
         "reason": "Evidence covers requirements and no high-risk flag was found"
@@ -31,7 +36,7 @@
             "text": "My portfolio includes Python CSV analysis dashboard."
           }
         ],
-        "text": "Hello, I read your request for Build a Python analytics dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
+        "text": "For your Build a Python analytics dashboard project, I can apply the work shown in Python CSV analysis dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
       },
       "events": [
         "Scout loaded job",
@@ -40,7 +45,10 @@
         "Fit matcher found cited evidence",
         "Decision: bid",
         "Price quote prepared",
-        "Writer prepared a cited demo draft",
+        "Writer prepared cited demo draft, revision 0",
+        "Critic requested revision 1: Opening repeats the job title without a specific plan",
+        "Writer prepared cited demo draft, revision 1",
+        "Critic accepted draft",
         "Compliance checked draft",
         "Human approved draft",
         "Approved marketplace draft created"
@@ -67,7 +75,7 @@
         "draft_id": "draft-demo-1:approved-draft",
         "idempotency_key": "demo-1:approved-draft",
         "job_id": "demo-1",
-        "text": "Hello, I read your request for Build a Python analytics dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
+        "text": "For your Build a Python analytics dashboard project, I can apply the work shown in Python CSV analysis dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
       },
       "price": {
         "amount": 450.0,
@@ -98,6 +106,11 @@
         "allowed": true,
         "reasons": []
       },
+      "critique": {
+        "accepted": true,
+        "issues": [],
+        "revision": 1
+      },
       "decision": {
         "action": "bid",
         "reason": "Evidence covers requirements and no high-risk flag was found"
@@ -112,7 +125,7 @@
             "text": "My portfolio includes Python CSV analysis dashboard."
           }
         ],
-        "text": "Hello, I read your request for Build a Python analytics dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
+        "text": "For your Build a Python analytics dashboard project, I can apply the work shown in Python CSV analysis dashboard. My portfolio includes Python CSV analysis dashboard. I would confirm the scope with you before starting."
       },
       "events": [
         "Scout loaded job",
@@ -121,7 +134,10 @@
         "Fit matcher found cited evidence",
         "Decision: bid",
         "Price quote prepared",
-        "Writer prepared a cited demo draft",
+        "Writer prepared cited demo draft, revision 0",
+        "Critic requested revision 1: Opening repeats the job title without a specific plan",
+        "Writer prepared cited demo draft, revision 1",
+        "Critic accepted draft",
         "Compliance checked draft"
       ],
       "fit": {
