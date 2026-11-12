@@ -1,6 +1,6 @@
 # GigBid
 
-GigBid is an **in-progress** AI-4016 Assignment II project. This repository is being built while the instructor's GigSim starter kit and evaluation data are obtained. The current demo uses synthetic local jobs and a deterministic draft; it is **not** a completed submission, deployed application, or measured R&D result.
+GigBid is an **in-progress** AI-4016 Assignment II project. The instructor supplied an example scaffold on 12 November 2026, but it contains no working GigSim service, personas, or evaluation data. The current web workflow uses clearly labeled synthetic jobs and a deterministic draft. A separate, attributed 2024 Kaggle dataset supplies descriptive budget aggregates, not client outcomes or evaluation labels. This is **not** a completed GigSim submission or measured marketplace result.
 
 [![GigBid CI](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml/badge.svg)](https://github.com/FazalZamanKhan/gigbid/actions/workflows/ci.yml)
 
@@ -45,12 +45,14 @@ Four [public synthetic development traces](docs/traces/) show an [approved propo
 
 ## Current development slice
 
-- A typed marketplace port has local direct and MCP-backed synthetic adapters. The GigSim adapter will be wired to the provided simulator's actual API after the starter kit arrives.
+- A typed marketplace port has local direct and MCP-backed synthetic adapters. The example starter ZIP has no GigSim contract or service to integrate; a future adapter requires the actual simulator API.
 - The bid graph analyses a job, retrieves synthetic portfolio evidence through an MCP session, checks the cited draft, and pauses for human approval before any marketplace write.
 - A second LangGraph workflow classifies synthetic client replies, asks the Workspace MCP mock for interview slots, and pauses for approval before recording a synthetic message.
-- A FastAPI API exposes jobs, bid and conversation runs, approvals, and health. The React UI displays the inbox, proposal review, and message review. It restores the last runs after a page reload when their checkpoints are available.
+- A FastAPI API exposes jobs, bid and conversation runs, approvals, and health. The React UI displays the inbox, proposal review, message review, and a browser-local synthetic reviewer setup. It restores the last runs after a page reload when their checkpoints are available.
 - Portfolio MCP provides read-only evidence tools and resource templates. A separate development Marketplace MCP server exposes synthetic job reads, a guarded draft tool, and a guarded message tool. The Workspace MCP server provides a local mock calendar and email draft store.
 - A separate [retrieval experiment harness](docs/RAG_EVAL.md) runs V0, V1, V2, V3, V4 and a V8 LangGraph corrective path on caller-supplied labeled data. Only a four-query synthetic smoke run is available so far; it cannot select a production variant.
+- An [attributed data card](docs/DATA_CARD.md) and reproducible script derive fixed-price budget aggregates from the instructor-permitted 2024 Kaggle job postings dataset. No raw historical job text is committed or presented as current marketplace work.
+- Seven Playwright end-to-end tests cover demo setup, approval, rejection, edited-draft hold, outage messaging, scam/injection skip, and client reply approval.
 
 ## Run locally
 

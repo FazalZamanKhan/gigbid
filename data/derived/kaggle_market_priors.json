@@ -1,0 +1,58 @@
+{
+  "source": "https://www.kaggle.com/datasets/asaniczka/upwork-job-postings-dataset-2024-50k-records",
+  "license": "ODC Attribution License (ODC-By)",
+  "source_zip_sha256": "3f40f06c267f6429e6c9fdd9a81c0c9bb3a3c9eb85edadb1d6638394e9ce5b35",
+  "method": "Title keyword categories; exact title+description deduplication; fixed-price USD budgets in [50, 100000]; no outcome labels.",
+  "rows": {
+    "total": 53058,
+    "duplicates": 23,
+    "hourly_excluded": 22945,
+    "missing_budget": 8227,
+    "invalid_or_outlier_budget": 7243,
+    "included": 14620
+  },
+  "categories": {
+    "analytics": {
+      "count": 665,
+      "median_usd": 200.0,
+      "p25_usd": 100.0,
+      "p75_usd": 500.0
+    },
+    "web_development": {
+      "count": 2219,
+      "median_usd": 200.0,
+      "p25_usd": 100.0,
+      "p75_usd": 500.0
+    },
+    "ai_ml": {
+      "count": 272,
+      "median_usd": 250.0,
+      "p25_usd": 100.0,
+      "p75_usd": 1000.0
+    },
+    "design": {
+      "count": 1669,
+      "median_usd": 150.0,
+      "p25_usd": 80.0,
+      "p75_usd": 300.0
+    },
+    "marketing": {
+      "count": 987,
+      "median_usd": 250.0,
+      "p25_usd": 100.0,
+      "p75_usd": 530.0
+    },
+    "writing": {
+      "count": 953,
+      "median_usd": 200.0,
+      "p25_usd": 100.0,
+      "p75_usd": 770.0
+    },
+    "other": {
+      "count": 7855,
+      "median_usd": 200.0,
+      "p25_usd": 100.0,
+      "p75_usd": 500.0
+    }
+  }
+}
